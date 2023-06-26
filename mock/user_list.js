@@ -4,7 +4,7 @@
 const Mock = require('mockjs')
 
 const data = Mock.mock({
-  'items|30': [{
+  'items|120': [{
     id: '@id',
     name: '@word(3, 8)',
     'status|1': ['正常', '停用'],
@@ -24,8 +24,8 @@ module.exports = [
       // 转换为整数
       const page = parseInt(query.page)
       const pageSize = parseInt(query.pageSize)
-      const items = data.items
-      const total = items.length
+      const total = data.items.length
+      const items = data.items.slice((page - 1) * pageSize, page * pageSize)
       return {
         code: 1000,
         data: {
