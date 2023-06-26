@@ -14,7 +14,7 @@
     <div class="app-header">
       <el-button size="small" type="primary" icon="el-icon-plus">新增</el-button>
       <el-button size="small" type="warning" icon="el-icon-edit">修改</el-button>
-      <el-button size="small" type="danger" icon="el-icon-delete">删除</el-button>
+      <el-button size="small" type="danger" icon="el-icon-delete" @click="clickDelete">删除</el-button>
       <el-button size="small" type="success" icon="el-icon-info" @click="clickDetail">详情</el-button>
     </div>
     <el-table ref="table" class="app-body" v-loading="listLoading" :data="table.list" element-loading-text="加载中..." border
@@ -26,9 +26,17 @@
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column :label="field.label" v-for="field in fields" :key="field.name" :align="field.align" v-if="!field.is_hide">
+      <el-table-column :label="field.label" v-for="field in fields" :key="field.name" :align="field.align"
+        v-if="!field.is_hide">
         <template slot-scope="scope">
           {{ scope.row[field['name']] }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="'操作'" align="center" width="300" fixed="right">
+        <template slot-scope="scope">
+          <el-button size="mini" type="warning" icon="el-icon-edit">修改</el-button>
+          <el-button size="mini" type="success" icon="el-icon-info" @click="detail(scope.row)">详情</el-button>
+          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteItems([scope.row])">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -56,6 +64,10 @@ export default {
     fields: {  // 表格字段
       type: Array,
       default: () => []
+    },
+    opBtn: {  // 操作按钮
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -76,6 +88,10 @@ export default {
     this.fetchData()
   },
   methods: {
+    detail(item) {
+      this.detailItem = item
+      this.showDetail = true
+    },
     clickDetail() {
       // 获取选中的数据
       const selectedData = this.$refs.table.selection
@@ -86,9 +102,30 @@ export default {
         })
         return
       }
-      this.showDetail = true
-      this.detailItem = selectedData[0]
-      this.$emit('clickDetail')
+      this.detail(selectedData[0])
+      // this.$emit('clickDetail')
+    },
+
+    deleteItems(itemList) {
+      if (itemList.length === 0) {
+        this.$message({
+          message: '请选择要删除的数据',
+          type: 'warning'
+        })
+        return
+      }
+      this.$confirm(`此操作将永久删除该 ${itemList.length} 项数据, 是否继续?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$emit('clickDelete', itemList)
+      }).catch(() => { })
+    },
+    clickDelete() {
+      // 获取选中的数据
+      const selectedData = this.$refs.table.selection
+      this.deleteItems(selectedData)
     },
     sizeChange(val) {  // 每页显示条数改变
       this.table.page = 1

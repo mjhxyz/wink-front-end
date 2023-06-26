@@ -21,18 +21,18 @@ export default {
           name: 'id',
           width: 100,
           align: 'center',
-          is_hide: true,
+          // is_hide: true,
         },
         {
           label: '用户名',
           name: 'name',
-          width: 100,
+          // width: 100,
           align: 'center',
         },
         {
           label: '角色',
           name: 'role',
-          width: 100,
+          // width: 100,
           align: 'center',
         },
         {
