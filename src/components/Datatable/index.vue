@@ -1,19 +1,47 @@
 <template>
   <div class="datatable-wrapper">
+
+    <el-dialog title="修改" :visible.sync="showEdit" width="800px" :close-on-click-modal="false">
+      <!-- 修改信息弹出框 -->
+      <el-form ref="form" :model="editForm" label-width="80px">
+        <el-form-item :label="field.label" :key="field.name" v-for="field in fields" v-if="field.editable !== false">
+          <el-date-picker v-if="field.type === 'datetime'" v-model="editItem[field.name]" type="datetime"
+            placeholder="选择日期时间" :readonly="field.editable === 'readonly'">
+          </el-date-picker>
+          <el-select v-model="editItem[field.name]" placeholder="请选择" v-else-if="Array.isArray(field.type)">
+            <el-option v-for="item in field.type" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+          <el-input v-else v-model="editItem[field.name]" :readonly="field.editable === 'readonly'"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="success" @click="showEdit = false">保存修改</el-button>
+        <el-button type="danger" @click="showEdit = false">关 闭</el-button>
+      </span>
+    </el-dialog>
+
     <el-dialog title="详情" :visible.sync="showDetail" width="800px">
       <!-- 详细信息弹出框 -->
       <el-descriptions title="" border>
-        <el-descriptions-item :label="field.label" :key="field.name" v-for="field  in fields">
-          {{ detailItem[field.name] }}
+        <el-descriptions-item :label="field.label" :key="field.name" v-for="field in fields">
+          <span v-if="field.formatter">
+            {{ field.formatter(detailItem[field.name]) }}
+          </span>
+          <span v-else-if="field.dict">
+            {{ field.dict[detailItem[field.name]] }}
+          </span>
+          <span v-else>{{ detailItem[field.name] }}</span>
         </el-descriptions-item>
       </el-descriptions>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="showDetail = false">关 闭</el-button>
       </span>
     </el-dialog>
+
     <div class="app-header">
       <el-button size="small" type="primary" icon="el-icon-plus">新增</el-button>
-      <el-button size="small" type="warning" icon="el-icon-edit">修改</el-button>
+      <el-button size="small" type="warning" icon="el-icon-edit" @click="clickEdit">修改</el-button>
       <el-button size="small" type="danger" icon="el-icon-delete" @click="clickDelete">删除</el-button>
       <el-button size="small" type="success" icon="el-icon-info" @click="clickDetail">详情</el-button>
     </div>
@@ -29,12 +57,18 @@
       <el-table-column :label="field.label" v-for="field in fields" :key="field.name" :align="field.align"
         v-if="!field.is_hide">
         <template slot-scope="scope">
-          {{ scope.row[field['name']] }}
+          <span v-if="field.formatter">
+            {{ field.formatter(scope.row[field['name']], scope.row) }}
+          </span>
+          <span v-else-if="field.dict">
+            {{ field.dict[scope.row[field['name']]] }}
+          </span>
+          <span v-else>{{ scope.row[field['name']] }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="'操作'" align="center" width="300" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" type="warning" icon="el-icon-edit">修改</el-button>
+          <el-button size="mini" type="warning" icon="el-icon-edit" @click="edit(scope.row)">修改</el-button>
           <el-button size="mini" type="success" icon="el-icon-info" @click="detail(scope.row)">详情</el-button>
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteItems([scope.row])">删除</el-button>
         </template>
@@ -72,8 +106,13 @@ export default {
   },
   data() {
     return {
+      editForm: {},  // 修改表单
+
       showDetail: false,  // 是否显示详情
       detailItem: {},  // 详情数据
+
+      showEdit: false, // 是否显示修改
+      editItem: {},  // 修改的数据
 
       listLoading: true,
       table: {
@@ -88,6 +127,25 @@ export default {
     this.fetchData()
   },
   methods: {
+    edit(item) {
+      // 需要先拷贝一份，否则会影响到原数据
+      const editForm = JSON.parse(JSON.stringify(item))
+      this.editItem = editForm
+      this.showEdit = true
+    },
+    clickEdit() {
+      // 获取选中的数据
+      const selectedData = this.$refs.table.selection
+      if (selectedData.length !== 1) {
+        this.$message({
+          message: '请选择一条数据',
+          type: 'warning'
+        })
+        return
+      }
+      this.edit(selectedData[0])
+    },
+
     detail(item) {
       this.detailItem = item
       this.showDetail = true
@@ -127,6 +185,7 @@ export default {
       const selectedData = this.$refs.table.selection
       this.deleteItems(selectedData)
     },
+
     sizeChange(val) {  // 每页显示条数改变
       this.table.page = 1
       this.table.pageSize = val
