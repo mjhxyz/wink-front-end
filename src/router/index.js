@@ -160,6 +160,29 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/planform',
+    component: Layout,
+    redirect: '/planform/user',
+    name: 'Planform',
+    meta: { title: '平台管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'user',
+        name: 'User',
+        component: () => import('@/views/planform/user'),
+        meta: { title: '用户管理', icon: 'table' }
+      },
+      {
+        path: 'role',
+        name: 'Role',
+        component: () => import('@/views/planform/role'),
+        meta: { title: '角色管理', icon: 'tree' }
+      },
+    ]
+  },
+
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
