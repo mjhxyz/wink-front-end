@@ -56,6 +56,29 @@ module.exports = [
     }
   },
 
+  // get user info
+  {
+    url: '/vue-admin-template/user/info\.*',
+    type: 'get',
+    response: config => {
+      const { token } = config.query
+      const info = users[token]
+
+      // mock error
+      if (!info) {
+        return {
+          code: 2002,
+          message: '获取用户信息失败'
+        }
+      }
+
+      return {
+        code: 1000,
+        data: info
+      }
+    }
+  },
+
   // user logout
   {
     url: '/vue-admin-template/user/logout',
