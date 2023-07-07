@@ -31,41 +31,27 @@ module.exports = [
     response: config => {
       const { username } = config.body
       const token = tokens[username]
-
-      // mock error
+      const info = users[token.token]
+      // 错误码 2004 表示登录失败
       if (!token) {
         return {
-          code: 60204,
-          message: 'Account and password are incorrect.'
+          code: 2004,
+          message: '用户名或密码错误'
         }
       }
-
-      return {
-        code: 20000,
-        data: token
-      }
-    }
-  },
-
-  // get user info
-  {
-    url: '/vue-admin-template/user/info\.*',
-    type: 'get',
-    response: config => {
-      const { token } = config.query
-      const info = users[token]
-
-      // mock error
       if (!info) {
         return {
-          code: 50008,
-          message: 'Login failed, unable to get user details.'
+          code: 2004,
+          message: '获取用户信息失败'
         }
       }
 
       return {
-        code: 20000,
-        data: info
+        code: 1000,
+        data: {
+          token: token.token,
+          info,
+        }
       }
     }
   },
@@ -76,7 +62,7 @@ module.exports = [
     type: 'post',
     response: _ => {
       return {
-        code: 20000,
+        code: 1000,
         data: 'success'
       }
     }

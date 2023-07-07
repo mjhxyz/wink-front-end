@@ -13,24 +13,20 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
-    // do something before request is sent
-
+    // 发送数据的前置处理
     if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
+      // 每一个请求都会带上token
       config.headers['X-Token'] = getToken()
     }
     return config
   },
   error => {
-    // do something with request error
-    console.log(error) // for debug
+    console.log(error) // 用于调试
     return Promise.reject(error)
   }
 )
 
-// response interceptor
+// 响应拦截器
 service.interceptors.response.use(
   /**
    * If you want to get http information such as headers or status
@@ -38,35 +34,34 @@ service.interceptors.response.use(
   */
 
   /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
+   * 通过自定义的状态码来判断请求的状态
+   * 你也可以通过HTTP状态码来判断请求的状态
    */
   response => {
     const res = response.data
-
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
+    // 如果自定义的状态码不是1000，就判断为错误
+    if (res.code !== 1000) {
       Message({
-        message: res.message || 'Error',
+        message: res.message || '错误',
         type: 'error',
         duration: 5 * 1000
       })
 
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        // to re-login
-        MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
+      // 2002: token 非法; 2003: token 过期
+      if (res.code === 2002 || res.code === 2003) {
+        // 重新登录
+        MessageBox.confirm('您已经登出，您可以取消以停留在此页面，或再次登录', '确认登出', {
+          confirmButtonText: '重新登录',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          // 重置token并重新登录
           store.dispatch('user/resetToken').then(() => {
             location.reload()
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.message || '错误'))
     } else {
       return res
     }
