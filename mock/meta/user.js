@@ -8,7 +8,7 @@ const data = Mock.mock({
     id: '@id',
     name: '@word(3, 8)',
     'status|1': [0, 1],
-    'role|1': [0, 1, 2],
+    'role|1': [1, 2, 3, 4],
     add_time: '@datetime',
     update_time: '@datetime'
   }]

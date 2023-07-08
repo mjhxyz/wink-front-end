@@ -19,30 +19,30 @@
           :label="field.label"
           :prop="field.name"
         >
+          <el-input
+            v-if="!field.type || field.type.name === 'text'"
+            v-model="addForm[field.name]"
+            :placeholder="field.placeholder"
+          />
           <el-date-picker
-            v-if="field.type === 'datetime'"
+            v-else-if="field.type.name === 'datetime'"
             v-model="addForm[field.name]"
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             :placeholder="field.placeholder || '选择日期时间'"
           />
           <el-select
-            v-else-if="Array.isArray(field.type)"
+            v-else-if="field.type.name === 'select'"
             v-model="addForm[field.name]"
             :placeholder="field.placeholder"
           >
             <el-option
-              v-for="item in field.type"
+              v-for="item in field.type.params"
               :key="item.value"
               :label="item.label"
               :value="item.value"
             />
           </el-select>
-          <el-input
-            v-else
-            v-model="addForm[field.name]"
-            :placeholder="field.placeholder"
-          />
         </el-form-item>
       </el-form>
       <span
@@ -78,31 +78,30 @@
           :label="field.label"
           :prop="field.name"
         >
+          <el-input
+            v-if="!field.type || field.type.name === 'text'"
+            v-model="editForm[field.name]"
+            :placeholder="field.placeholder"
+          />
           <el-date-picker
-            v-if="field.type === 'datetime'"
+            v-else-if="field.type.name === 'datetime'"
             v-model="editForm[field.name]"
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             :placeholder="field.placeholder || '选择日期时间'"
           />
           <el-select
-            v-else-if="Array.isArray(field.type)"
+            v-else-if="field.type.name === 'select'"
             v-model="editForm[field.name]"
             :placeholder="field.placeholder"
           >
             <el-option
-              v-for="item in field.type"
+              v-for="item in field.type.params"
               :key="item.value"
               :label="item.label"
               :value="item.value"
             />
           </el-select>
-          <el-input
-            v-else
-            v-model="editForm[field.name]"
-            :readonly="field.editable === 'readonly'"
-            :placeholder="field.placeholder"
-          />
         </el-form-item>
       </el-form>
       <!-- 修改信息弹出框 -->
@@ -275,6 +274,11 @@
 </template>
 
 <script>
+import { getRequest } from '@/api/meta'
+
+// meta select 缓存, key: field
+const metaSelectCache = {}
+
 export default {
   props: {
     index: { // 是否显示序号
@@ -379,6 +383,29 @@ export default {
     this.fetchData()
   },
   methods: {
+    beforeShowForm() { // 显示表单前
+      // meta 选择器
+      for (const field of this.fields) {
+        if (field.type && field.type.name === 'meta-select') {
+          const { meta, value, label } = field.type.params
+          const request = getRequest(meta)
+          request.getList().then(res => {
+            let items = res.data.items
+            items = items.map(item => {
+              return {
+                value: item[value],
+                label: item[label]
+              }
+            })
+            field.type = { // 转换为 普通的 select
+              name: 'select',
+              params: items
+            }
+          })
+        }
+      }
+    },
+
     addSubmit() { // 新增提交
       this.$refs.addform.validate((valid) => {
         if (valid) {
@@ -396,6 +423,7 @@ export default {
       this.addForm = {}
       // 默认值
       const addForm = {}
+      this.beforeShowForm()
       for (const field of this.fields) {
         if (field.default !== undefined) {
           if (typeof field.default === 'function') {
@@ -424,6 +452,7 @@ export default {
       })
     },
     edit(item) {
+      this.beforeShowForm()
       // 需要先拷贝一份，否则会影响到原数据
       this.editForm = { ...item }
       this.showEdit = true

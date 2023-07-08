@@ -28,7 +28,9 @@ export const roleMeta = {
       // editable: 'readonly',
       editable: false,
       addible: false,
-      type: 'text'
+      type: {
+        name: 'text'
+      }
       // is_hide: true
     },
     {
@@ -46,7 +48,9 @@ export const roleMeta = {
       name: 'update_time',
       width: 200,
       align: 'center',
-      type: 'datetime',
+      type: {
+        name: 'datetime'
+      },
       editable: 'readonly',
       required: true,
       default() {
@@ -58,7 +62,9 @@ export const roleMeta = {
       name: 'add_time',
       width: 200,
       align: 'center',
-      type: 'datetime',
+      type: {
+        name: 'datetime'
+      },
       editable: 'readonly',
       placeholder: '请选择添加时间',
       validator: (val, row, index) => {

@@ -28,7 +28,9 @@ export const userMeta = {
       // editable: 'readonly',
       editable: false,
       addible: false,
-      type: 'text'
+      type: {
+        name: 'text'
+      }
       // is_hide: true
     },
     {
@@ -51,17 +53,25 @@ export const userMeta = {
       name: 'role',
       // width: 100,
       align: 'center',
-      type: [{ 'label': '普通用户', 'value': 0 }, { 'label': '管理员', 'value': 1 }, { 'label': '超级管理员', 'value': 2 }],
-      formatter: (val, row, index) => {
-        if (val === 0) {
-          return '普通用户'
-        } else if (val === 1) {
-          return '管理员'
-        } else if (val === 2) {
-          return '超级管理员'
+      // type: [{ 'label': '普通用户', 'value': 0 }, { 'label': '管理员', 'value': 1 }, { 'label': '超级管理员', 'value': 2 }],
+      type: {
+        name: 'meta-select', // 获取 meta 数据的 select
+        params: {
+          meta: 'role',
+          value: 'id',
+          label: 'name'
         }
       },
-      default: 0,
+      // formatter: (val, row, index) => {
+      //   if (val === 0) {
+      //     return '普通用户'
+      //   } else if (val === 1) {
+      //     return '管理员'
+      //   } else if (val === 2) {
+      //     return '超级管理员'
+      //   }
+      // },
+      default: 1,
       required: true
     },
     {
@@ -69,7 +79,10 @@ export const userMeta = {
       name: 'status',
       width: 100,
       align: 'center',
-      type: [{ 'label': '启用', 'value': 1 }, { 'label': '禁用', 'value': 0 }],
+      type: {
+        name: 'select',
+        params: [{ 'label': '启用', 'value': 1 }, { 'label': '禁用', 'value': 0 }]
+      },
       dict: {
         1: '启用',
         0: '禁用'
@@ -83,7 +96,9 @@ export const userMeta = {
       name: 'update_time',
       width: 200,
       align: 'center',
-      type: 'datetime',
+      type: {
+        name: 'datetime'
+      },
       editable: 'readonly',
       required: true,
       default() {
@@ -95,7 +110,9 @@ export const userMeta = {
       name: 'add_time',
       width: 200,
       align: 'center',
-      type: 'datetime',
+      type: {
+        name: 'datetime'
+      },
       editable: 'readonly',
       placeholder: '请选择添加时间',
       validator: (val, row, index) => {

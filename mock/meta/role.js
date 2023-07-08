@@ -3,14 +3,32 @@
  */
 const Mock = require('mockjs')
 
-const data = Mock.mock({
-  'items|5': [{
-    id: '@id',
-    name: '@word(3, 8)-管理员',
-    add_time: '@datetime',
-    update_time: '@datetime'
-  }]
-})
+const roleList = [
+  {
+    id: 1,
+    name: '超级管理员',
+    add_time: '2020-01-01 00:00:00',
+    update_time: '2020-01-01 00:00:00'
+  },
+  {
+    id: 2,
+    name: '管理员',
+    add_time: '2020-01-01 00:00:00',
+    update_time: '2020-01-01 00:00:00'
+  },
+  {
+    id: 3,
+    name: '普通用户',
+    add_time: '2020-01-01 00:00:00',
+    update_time: '2020-01-01 00:00:00'
+  },
+  {
+    id: 4,
+    name: '游客',
+    add_time: '2020-01-01 00:00:00',
+    update_time: '2020-01-01 00:00:00'
+  }
+]
 
 module.exports = [
   {
@@ -21,8 +39,18 @@ module.exports = [
       // 转换为整数
       const page = parseInt(query.page)
       const pageSize = parseInt(query.pageSize)
-      const total = data.items.length
-      const items = data.items.slice((page - 1) * pageSize, page * pageSize)
+      if (!page || !pageSize) {
+        return {
+          code: 1000,
+          data: {
+            total: roleList.length,
+            items: roleList,
+            page: 1
+          }
+        }
+      }
+      const total = roleList.length
+      const items = roleList.slice((page - 1) * pageSize, page * pageSize)
       return {
         code: 1000,
         data: {
