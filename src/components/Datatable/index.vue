@@ -407,7 +407,14 @@ export default {
             name: 'select',
             params: items
           }
-          field.dict = { ...dict }
+          field.dict = dict
+        } else if (field.type && field.type.name === 'select') {
+          const params = field.type.params
+          const dict = {}
+          for (const item of params) {
+            dict[item.value] = item.label
+          }
+          field.dict = dict
         }
       }
     },

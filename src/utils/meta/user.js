@@ -83,10 +83,6 @@ export const userMeta = {
         name: 'select',
         params: [{ 'label': '启用', 'value': 1 }, { 'label': '禁用', 'value': 0 }]
       },
-      dict: {
-        1: '启用',
-        0: '禁用'
-      },
       placeholder: '请选择状态',
       default: 1,
       required: true
