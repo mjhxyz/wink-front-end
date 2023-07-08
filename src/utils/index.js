@@ -1,6 +1,16 @@
+
 /**
- * Created by PanJiaChen on 16/11/18.
+ * @description: 等待时间
+ * @param {number} time
+ * @returns
  */
+export function wait(time) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
 
 /**
  * Parse the time to string

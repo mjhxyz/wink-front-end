@@ -358,9 +358,13 @@ export default {
     addSubmit() { // 新增提交
       this.$refs.addform.validate((valid) => {
         if (valid) {
-          this.$emit('add', this.addForm)
+          this.$emit('add', this.addForm, (e) => {
+            if (e) {
+              this.$message.success('新增成功')
+              this.fetchData()
+            }
+          })
           this.showAdd = false
-          console.log(this.addForm)
         }
       })
     },
@@ -385,9 +389,13 @@ export default {
     editSubmit() { // 修改提交
       this.$refs.editform.validate((valid) => {
         if (valid) {
-          this.$emit('edit', this.editForm)
+          this.$emit('edit', this.editForm, (e) => {
+            if (e) {
+              this.$message.success('修改成功')
+              this.fetchData()
+            }
+          })
           this.showEdit = false
-          console.log('修改', this.editForm)
         }
       })
     },
@@ -440,7 +448,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$emit('clickDelete', itemList)
+        this.$emit('delete', itemList, (e) => {
+          if (e) {
+            this.$message.success('删除成功')
+            this.fetchData()
+          }
+        })
       }).catch(() => { })
     },
     clickDelete() {

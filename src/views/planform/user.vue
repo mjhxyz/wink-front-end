@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
-    <datatable :index="true" :fields="fields" :op-btn="true" @fetchData="fetchData" />
+    <datatable :index="true" :fields="fields" :op-btn="true" @fetchData="fetchData" @add="add" @edit="edit" @delete="deleteItems" />
   </div>
 </template>
 
 <script>
-import { getUserList } from '@/api/user_list'
+import { getUserList } from '@/api/planform/user_list'
 import Datatable from '@/components/Datatable/index.vue'
 import { parseTime } from '@/utils'
 
@@ -82,6 +82,7 @@ export default {
           align: 'center',
           type: 'datetime',
           editable: 'readonly',
+          required: true,
           default() {
             return parseTime(new Date())
           }
@@ -99,6 +100,7 @@ export default {
               return '添加时间不能为空'
             }
           },
+          required: true,
           default() {
             return parseTime(new Date())
           }
@@ -107,6 +109,19 @@ export default {
     }
   },
   methods: {
+    add(item, callback) {
+      // TODO 添加用户
+      callback(true)
+    },
+    edit(item, callback) {
+      // TODO 编辑用户
+      callback(true)
+    },
+    deleteItems(items, callback) { // delete 是关键字，不能用
+      // TODO 删除用户
+      console.log(items)
+      callback(true)
+    },
     async fetchData(params, callback) {
       const result = await getUserList(params)
       const { page, total, items } = result.data
