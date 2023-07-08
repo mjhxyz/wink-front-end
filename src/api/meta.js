@@ -3,25 +3,73 @@
  */
 import request from '@/utils/request'
 
-export function login(data) {
+// 获取 meta 对应表的数据
+export function getList(metaCode, params) {
   return request({
-    url: '/vue-admin-template/user/login',
+    url: `/${metaCode}/list`,
+    method: 'get',
+    params
+  })
+}
+
+// 添加记录
+export function add(metaCode, data) {
+  return request({
+    url: `/${metaCode}/add`,
     method: 'post',
     data
   })
 }
 
-export function getInfo(token) {
+// 编辑记录
+export function edit(metaCode, data) {
   return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
+    url: `/${metaCode}/edit`,
+    method: 'post',
+    data
   })
 }
 
-export function logout() {
+// 删除记录
+export function deleteRecord(metaCode, data) {
   return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
+    url: `/${metaCode}/delete`,
+    method: 'post',
+    data
   })
+}
+
+// 批量删除记录
+export function deleteMany(metaCode, data) {
+  return request({
+    url: `/${metaCode}/delete_many`,
+    method: 'post',
+    data
+  })
+}
+
+// //////////////////// 简化请求 //////////////////////
+class MetaRequest {
+  constructor(metaCode) {
+    this.metaCode = metaCode
+  }
+  getList(params) {
+    return getList(this.metaCode, params)
+  }
+  add(data) {
+    return add(this.metaCode, data)
+  }
+  edit(data) {
+    return edit(this.metaCode, data)
+  }
+  delete(data) {
+    return deleteRecord(this.metaCode, data)
+  }
+  deleteMany(data) {
+    return deleteMany(this.metaCode, data)
+  }
+}
+
+export function getRequest(metaCode) {
+  return new MetaRequest(metaCode)
 }

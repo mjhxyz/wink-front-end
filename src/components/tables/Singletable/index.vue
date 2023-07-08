@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getUserList, addUser, editUser, deleteUser } from '@/api/planform/user_list'
+import { getRequest } from '@/api/meta'
 import Datatable from '@/components/Datatable/index.vue'
 
 export default {
@@ -23,6 +23,9 @@ export default {
   },
 
   computed: {
+    request() {
+      return getRequest(this.metaCode)
+    },
     fields() {
       return this.meta.fields
     },
@@ -32,8 +35,7 @@ export default {
   },
   methods: {
     add(item, callback) {
-      // TODO 添加用户
-      addUser(item).then(res => {
+      this.request.add(item).then(res => {
         callback(true)
       }).catch(e => {
         callback(e)
@@ -41,24 +43,25 @@ export default {
     },
 
     edit(item, callback) {
-      editUser(item).then(res => {
+      this.request.edit(item).then(res => {
         callback(true)
       }).catch(e => {
-        callback(false)
+        callback(e)
       })
     },
 
     deleteItems(items, callback) { // delete 是关键字，不能用
       // TODO 删除用户/删除单个用户
-      deleteUser(items).then(res => {
+      this.request.delete(items).then(res => {
         callback(true)
       }).catch(e => {
-        callback(false)
+        callback(e)
       })
     },
 
+    // 获取数据列表
     async fetchData(params, callback) {
-      const result = await getUserList(params)
+      const result = await this.request.getList(params)
       const { page, total, items } = result.data
       callback({
         page,
