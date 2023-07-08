@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { userMeta } from '@/utils/meta'
+import { roleMeta } from '@/utils/meta/role'
 import Singletable from '@/components/tables/Singletable/index.vue'
 
 export default {
@@ -12,7 +12,7 @@ export default {
   },
   data() {
     return {
-      meta: userMeta
+      meta: roleMeta
     }
   }
 }
