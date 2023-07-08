@@ -1,53 +1,141 @@
 <template>
   <div class="datatable-wrapper">
-    <el-dialog title="添加" :visible.sync="showAdd" width="800px" :close-on-click-modal="false">
+    <el-dialog
+      title="添加"
+      :visible.sync="showAdd"
+      width="800px"
+      :close-on-click-modal="false"
+    >
       <!-- 添加信息弹出框 -->
-      <el-form ref="addform" :model="addForm" label-width="80px" :rules="tableRules">
-        <el-form-item :label="field.label" :key="field.name" v-for="field in fields" v-if="field.addible !== false"
-          :prop="field.name">
-          <el-date-picker v-if="field.type === 'datetime'" v-model="addForm[field.name]" type="datetime"
-            value-format="yyyy-MM-dd HH:mm:ss" :placeholder="field.placeholder || '选择日期时间'">
-          </el-date-picker>
-          <el-select v-model="addForm[field.name]" :placeholder="field.placeholder" v-else-if="Array.isArray(field.type)">
-            <el-option v-for="item in field.type" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
+      <el-form
+        ref="addform"
+        :model="addForm"
+        label-width="80px"
+        :rules="tableRules"
+      >
+        <el-form-item
+          v-for="field in addibleFields"
+          :key="field.name"
+          :label="field.label"
+          :prop="field.name"
+        >
+          <el-date-picker
+            v-if="field.type === 'datetime'"
+            v-model="addForm[field.name]"
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :placeholder="field.placeholder || '选择日期时间'"
+          />
+          <el-select
+            v-else-if="Array.isArray(field.type)"
+            v-model="addForm[field.name]"
+            :placeholder="field.placeholder"
+          >
+            <el-option
+              v-for="item in field.type"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
-          <el-input v-else v-model="addForm[field.name]" :placeholder="field.placeholder"></el-input>
+          <el-input
+            v-else
+            v-model="addForm[field.name]"
+            :placeholder="field.placeholder"
+          />
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="success" @click="addSubmit">提 交</el-button>
-        <el-button type="danger" @click="showAdd = false">关 闭</el-button>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="success"
+          @click="addSubmit"
+        >提 交</el-button>
+        <el-button
+          type="danger"
+          @click="showAdd = false"
+        >关 闭</el-button>
       </span>
     </el-dialog>
 
-    <el-dialog title="修改" :visible.sync="showEdit" width="800px" :close-on-click-modal="false">
-      <el-form ref="editform" :model="editForm" label-width="80px" :rules="tableRules">
-        <el-form-item :label="field.label" :key="field.name" v-for="field in fields" v-if="field.addible !== false"
-          :prop="field.name">
-          <el-date-picker v-if="field.type === 'datetime'" v-model="editForm[field.name]" type="datetime"
-            value-format="yyyy-MM-dd HH:mm:ss" :placeholder="field.placeholder || '选择日期时间'">
-          </el-date-picker>
-          <el-select v-model="editForm[field.name]" :placeholder="field.placeholder"
-            v-else-if="Array.isArray(field.type)">
-            <el-option v-for="item in field.type" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
+    <el-dialog
+      title="修改"
+      :visible.sync="showEdit"
+      width="800px"
+      :close-on-click-modal="false"
+    >
+      <el-form
+        ref="editform"
+        :model="editForm"
+        label-width="80px"
+        :rules="tableRules"
+      >
+        <el-form-item
+          v-for="field in editableFields"
+          :key="field.name"
+          :label="field.label"
+          :prop="field.name"
+        >
+          <el-date-picker
+            v-if="field.type === 'datetime'"
+            v-model="editForm[field.name]"
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :placeholder="field.placeholder || '选择日期时间'"
+          />
+          <el-select
+            v-else-if="Array.isArray(field.type)"
+            v-model="editForm[field.name]"
+            :placeholder="field.placeholder"
+          >
+            <el-option
+              v-for="item in field.type"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
-          <el-input v-else v-model="editForm[field.name]" :readonly="field.editable === 'readonly'"
-            :placeholder="field.placeholder"></el-input>
+          <el-input
+            v-else
+            v-model="editForm[field.name]"
+            :readonly="field.editable === 'readonly'"
+            :placeholder="field.placeholder"
+          />
         </el-form-item>
       </el-form>
       <!-- 修改信息弹出框 -->
-      <span slot="footer" class="dialog-footer">
-        <el-button type="success" @click="editSubmit">保存修改</el-button>
-        <el-button type="danger" @click="showEdit = false">关 闭</el-button>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="success"
+          @click="editSubmit"
+        >保存修改</el-button>
+        <el-button
+          type="danger"
+          @click="showEdit = false"
+        >关 闭</el-button>
       </span>
     </el-dialog>
 
-    <el-dialog title="详情" :visible.sync="showDetail" width="800px">
+    <el-dialog
+      title="详情"
+      :visible.sync="showDetail"
+      width="800px"
+    >
       <!-- 详细信息弹出框 -->
-      <el-descriptions title="" border>
-        <el-descriptions-item :label="field.label" :key="field.name" v-for="field in fields">
+      <el-descriptions
+        title=""
+        border
+      >
+        <el-descriptions-item
+          v-for="field in fields"
+          :key="field.name"
+          :label="field.label"
+        >
           <span v-if="field.formatter">
             {{ field.formatter(detailItem[field.name]) }}
           </span>
@@ -57,28 +145,74 @@
           <span v-else>{{ detailItem[field.name] }}</span>
         </el-descriptions-item>
       </el-descriptions>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="showDetail = false">关 闭</el-button>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          @click="showDetail = false"
+        >关 闭</el-button>
       </span>
     </el-dialog>
 
     <div class="app-header">
-      <el-button size="small" type="primary" icon="el-icon-plus" @click="clickAdd">新增</el-button>
-      <el-button size="small" type="warning" icon="el-icon-edit" @click="clickEdit">修改</el-button>
-      <el-button size="small" type="danger" icon="el-icon-delete" @click="clickDelete">删除</el-button>
-      <el-button size="small" type="success" icon="el-icon-info" @click="clickDetail">详情</el-button>
+      <el-button
+        size="small"
+        type="primary"
+        icon="el-icon-plus"
+        @click="clickAdd"
+      >新增</el-button>
+      <el-button
+        size="small"
+        type="warning"
+        icon="el-icon-edit"
+        @click="clickEdit"
+      >修改</el-button>
+      <el-button
+        size="small"
+        type="danger"
+        icon="el-icon-delete"
+        @click="clickDelete"
+      >删除</el-button>
+      <el-button
+        size="small"
+        type="success"
+        icon="el-icon-info"
+        @click="clickDetail"
+      >详情</el-button>
     </div>
-    <el-table ref="table" class="app-body" v-loading="listLoading" :data="table.list" element-loading-text="加载中..." border
-      fit height="100%" highlight-current-row>
-      <el-table-column type="selection" width="55">
-      </el-table-column>
-      <el-table-column align="center" label="#" width="95" v-if="index">
+    <el-table
+      ref="table"
+      v-loading="listLoading"
+      class="app-body"
+      :data="table.list"
+      element-loading-text="加载中..."
+      border
+      fit
+      height="100%"
+      highlight-current-row
+    >
+      <el-table-column
+        type="selection"
+        width="55"
+      />
+      <el-table-column
+        v-if="index"
+        align="center"
+        label="#"
+        width="95"
+      >
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column :label="field.label" v-for="field in fields" :key="field.name" :align="field.align"
-        v-if="!field.is_hide">
+      <el-table-column
+        v-for="field in tableFields"
+        :key="field.name"
+        :label="field.label"
+        :align="field.align"
+      >
         <template slot-scope="scope">
           <span v-if="field.formatter">
             {{ field.formatter(scope.row[field['name']], scope.row) }}
@@ -89,19 +223,48 @@
           <span v-else>{{ scope.row[field['name']] }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'操作'" align="center" width="300" fixed="right">
+      <el-table-column
+        v-if="opBtn"
+        :label="'操作'"
+        align="center"
+        width="300"
+        fixed="right"
+      >
         <template slot-scope="scope">
-          <el-button size="mini" type="warning" icon="el-icon-edit" @click="edit(scope.row)">修改</el-button>
-          <el-button size="mini" type="success" icon="el-icon-info" @click="detail(scope.row)">详情</el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteItems([scope.row])">删除</el-button>
+          <el-button
+            v-if="opBtnEdit"
+            size="mini"
+            type="warning"
+            icon="el-icon-edit"
+            @click="edit(scope.row)"
+          >修改</el-button>
+          <el-button
+            v-if="opBtnDetail"
+            size="mini"
+            type="success"
+            icon="el-icon-info"
+            @click="detail(scope.row)"
+          >详情</el-button>
+          <el-button
+            v-if="opBtnDelete"
+            size="mini"
+            type="danger"
+            icon="el-icon-delete"
+            @click="deleteItems([scope.row])"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="app-footer">
-      <el-pagination background layout="total, sizes, prev, pager, next" :total="table.total"
-        :current-page.sync="table.curPage" :page-sizes="[5, 10, 15, 20, 50, 100]" @size-change="sizeChange"
-        @current-change="currentChange">
-      </el-pagination>
+      <el-pagination
+        background
+        layout="total, sizes, prev, pager, next"
+        :total="table.total"
+        :current-page.sync="table.curPage"
+        :page-sizes="[5, 10, 15, 20, 50, 100]"
+        @size-change="sizeChange"
+        @current-change="currentChange"
+      />
     </div>
 
   </div>
@@ -110,28 +273,70 @@
 <script>
 export default {
   props: {
-    index: {  // 是否显示序号
+    index: { // 是否显示序号
       type: Boolean,
       default: true
     },
-    mutiple: {  // 是否多选
+    mutiple: { // 是否多选
       type: Boolean,
       default: true
     },
-    fields: {  // 表格字段
+    fields: { // 表格字段
       type: Array,
       default: () => []
     },
-    opBtn: {  // 操作按钮
-      type: Array,
-      default: () => []
+
+    opBtn: { // 操作按钮
+      type: Boolean,
+      default: true
+    },
+    opBtnDetail: { // 是否显示详情按钮
+      type: Boolean,
+      default: true
+    },
+    opBtnEdit: { // 是否显示修改按钮
+      type: Boolean,
+      default: true
+    },
+    opBtnDelete: { // 是否显示删除按钮
+      type: Boolean,
+      default: true
+    }
+  },
+  data() {
+    return {
+      addForm: {}, // 新增表单
+      showAdd: false, // 是否显示新增
+
+      showDetail: false, // 是否显示详情
+      detailItem: {}, // 详情数据
+
+      editForm: {}, // 修改表单
+      showEdit: false, // 是否显示修改
+
+      listLoading: true,
+      table: {
+        list: [],
+        total: 0,
+        page: 1,
+        pageSize: 10
+      }
     }
   },
   computed: {
-    tableRules() {  // 新增表单验证规则
-      let rules = {}
-      for (let field of this.fields) {
-        let rule = []
+    addibleFields() { // 能新增的字段
+      return this.fields.filter(field => field.addible !== false)
+    },
+    editableFields() { // 能修改的字段
+      return this.fields.filter(field => field.editable !== false)
+    },
+    tableFields() { // 能显示的字段
+      return this.fields.filter(field => !field.is_hide)
+    },
+    tableRules() { // 新增表单验证规则
+      const rules = {}
+      for (const field of this.fields) {
+        const rule = []
         if (field.required) {
           rule.push({ required: true, message: `请输入${field.label}`, trigger: 'blur' })
         }
@@ -144,33 +349,13 @@ export default {
         rules[field.name] = rule
       }
       return rules
-    },
-  },
-  data() {
-    return {
-      addForm: {},  // 新增表单
-      showAdd: false,  // 是否显示新增
-
-      showDetail: false,  // 是否显示详情
-      detailItem: {},  // 详情数据
-
-      editForm: {},  // 修改表单
-      showEdit: false, // 是否显示修改
-
-      listLoading: true,
-      table: {
-        list: [],
-        total: 0,
-        page: 1,
-        pageSize: 10,
-      }
     }
   },
   created() {
     this.fetchData()
   },
   methods: {
-    addSubmit() {  // 新增提交
+    addSubmit() { // 新增提交
       this.$refs.addform.validate((valid) => {
         if (valid) {
           this.$emit('add', this.addForm)
@@ -179,11 +364,11 @@ export default {
         }
       })
     },
-    clickAdd() {  // 点击新增按钮
+    clickAdd() { // 点击新增按钮
       this.addForm = {}
       // 默认值
-      let addForm = {}
-      for (let field of this.fields) {
+      const addForm = {}
+      for (const field of this.fields) {
         if (field.default !== undefined) {
           if (typeof field.default === 'function') {
             addForm[field.name] = field.default()
@@ -192,13 +377,12 @@ export default {
           }
         }
       }
-      //this.addForm = Object.assign({}, addForm)
+      // this.addForm = Object.assign({}, addForm)
       this.addForm = { ...addForm }
       this.showAdd = true
     },
 
-
-    editSubmit() {  // 修改提交
+    editSubmit() { // 修改提交
       this.$refs.editform.validate((valid) => {
         if (valid) {
           this.$emit('edit', this.editForm)
@@ -265,12 +449,12 @@ export default {
       this.deleteItems(selectedData)
     },
 
-    sizeChange(val) {  // 每页显示条数改变
+    sizeChange(val) { // 每页显示条数改变
       this.table.page = 1
       this.table.pageSize = val
       this.fetchData()
     },
-    currentChange(val) {  // 当前页改变
+    currentChange(val) { // 当前页改变
       this.table.page = val
       this.fetchData()
     },

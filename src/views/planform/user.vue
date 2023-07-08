@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <datatable @fetchData="fetchData" :index="true" :fields="fields" />
+    <datatable :index="true" :fields="fields" :op-btn="true" @fetchData="fetchData" />
   </div>
 </template>
 
@@ -25,8 +25,8 @@ export default {
           // editable: 'readonly',
           editable: false,
           addible: false,
-          type: 'text', // 
-          // is_hide: true,
+          type: 'text'
+          // is_hide: true
         },
         {
           label: '用户名',
@@ -41,7 +41,7 @@ export default {
           },
           required: true, // 是否必填
           max_length: 10, // 最大长度
-          min_length: 2, // 最小长度
+          min_length: 2 // 最小长度
         },
         {
           label: '角色',
@@ -50,16 +50,16 @@ export default {
           align: 'center',
           type: [{ 'label': '普通用户', 'value': 0 }, { 'label': '管理员', 'value': 1 }, { 'label': '超级管理员', 'value': 2 }],
           formatter: (val, row, index) => {
-            if (val == 0) {
+            if (val === 0) {
               return '普通用户'
-            } else if (val == 1) {
+            } else if (val === 1) {
               return '管理员'
-            } else if (val == 2) {
+            } else if (val === 2) {
               return '超级管理员'
             }
           },
           default: 0,
-          required: true,
+          required: true
         },
         {
           label: '状态',
@@ -73,7 +73,7 @@ export default {
           },
           placeholder: '请选择状态',
           default: 1,
-          required: true,
+          required: true
         },
         {
           label: '修改时间',
@@ -95,7 +95,7 @@ export default {
           editable: 'readonly',
           placeholder: '请选择添加时间',
           validator: (val, row, index) => {
-            if (val == '') {
+            if (val === '') {
               return '添加时间不能为空'
             }
           },
