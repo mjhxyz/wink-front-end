@@ -54,7 +54,8 @@ export const userMeta = {
       max_length: 20,
       min_length: 6,
       editable: false,
-      is_hide: true
+      is_hide: true,
+      is_hide_detail: true
     },
     {
       label: '确认密码',
@@ -65,6 +66,7 @@ export const userMeta = {
       placeholder: '请再次输入密码',
       required: true,
       is_hide: true,
+      is_hide_detail: true,
       editable: false,
       validate: (val, form) => {
         if (val !== form.password) {

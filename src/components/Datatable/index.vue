@@ -77,7 +77,7 @@
         border
       >
         <el-descriptions-item
-          v-for="field in fields"
+          v-for="field in detailFields"
           :key="field.name"
           :label="field.label"
         >
@@ -309,6 +309,9 @@ export default {
       } else {
         return ''
       }
+    },
+    detailFields() {
+      return this.fields.filter(field => !field.is_hide_detail)
     },
     formFields() {
       if (this.status === 1) {
