@@ -275,6 +275,7 @@
 
 <script>
 import { getRequest } from '@/api/meta'
+import { wait } from '@/utils'
 
 // meta select 缓存, key: field
 const metaSelectCache = {}
@@ -351,6 +352,7 @@ export default {
       }
     }
   },
+
   computed: {
     addibleFields() { // 能新增的字段
       return this.fields.filter(field => field.addible !== false)
@@ -379,29 +381,33 @@ export default {
       return rules
     }
   },
-  created() {
+
+  async created() {
+    await this.beforeShowForm()
     this.fetchData()
   },
   methods: {
-    beforeShowForm() { // 显示表单前
+    async beforeShowForm() { // 显示表单前
       // meta 选择器
       for (const field of this.fields) {
         if (field.type && field.type.name === 'meta-select') {
           const { meta, value, label } = field.type.params
           const request = getRequest(meta)
-          request.getList().then(res => {
-            let items = res.data.items
-            items = items.map(item => {
-              return {
-                value: item[value],
-                label: item[label]
-              }
-            })
-            field.type = { // 转换为 普通的 select
-              name: 'select',
-              params: items
+          const res = await request.getList()
+          let items = res.data.items
+          const dict = {}
+          items = items.map(item => {
+            dict[item[value]] = item[label]
+            return {
+              value: item[value],
+              label: item[label]
             }
           })
+          field.type = { // 转换为 普通的 select
+            name: 'select',
+            params: items
+          }
+          field.dict = { ...dict }
         }
       }
     },
@@ -423,7 +429,6 @@ export default {
       this.addForm = {}
       // 默认值
       const addForm = {}
-      this.beforeShowForm()
       for (const field of this.fields) {
         if (field.default !== undefined) {
           if (typeof field.default === 'function') {
@@ -452,7 +457,6 @@ export default {
       })
     },
     edit(item) {
-      this.beforeShowForm()
       // 需要先拷贝一份，否则会影响到原数据
       this.editForm = { ...item }
       this.showEdit = true
