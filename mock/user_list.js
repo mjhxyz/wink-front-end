@@ -10,10 +10,9 @@ const data = Mock.mock({
     'status|1': [0, 1],
     'role|1': [0, 1, 2],
     add_time: '@datetime',
-    update_time: '@datetime',
+    update_time: '@datetime'
   }]
 })
-
 
 module.exports = [
   {
@@ -31,6 +30,38 @@ module.exports = [
         data: {
           total, items, page
         }
+      }
+    }
+  },
+  {
+    url: '/planform/add',
+    type: 'post',
+    response: config => {
+      return {
+        code: 1000,
+        data: {
+          id: Mock.mock('@id')
+        }
+      }
+    }
+  },
+  {
+    url: '/planform/edit',
+    type: 'post',
+    response: config => {
+      return {
+        code: 1000,
+        data: {}
+      }
+    }
+  },
+  {
+    url: '/planform/delete',
+    type: 'post',
+    response: config => {
+      return {
+        code: 1000,
+        data: {}
       }
     }
   }

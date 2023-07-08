@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getUserList } from '@/api/planform/user_list'
+import { getUserList, addUser, editUser, deleteUser } from '@/api/planform/user_list'
 import Datatable from '@/components/Datatable/index.vue'
 import { parseTime } from '@/utils'
 
@@ -111,17 +111,30 @@ export default {
   methods: {
     add(item, callback) {
       // TODO 添加用户
-      callback(true)
+      addUser(item).then(res => {
+        callback(true)
+      }).catch(e => {
+        callback(e)
+      })
     },
+
     edit(item, callback) {
-      // TODO 编辑用户
-      callback(true)
+      editUser(item).then(res => {
+        callback(true)
+      }).catch(e => {
+        callback(false)
+      })
     },
+
     deleteItems(items, callback) { // delete 是关键字，不能用
-      // TODO 删除用户
-      console.log(items)
-      callback(true)
+      // TODO 删除用户/删除单个用户
+      deleteUser(items).then(res => {
+        callback(true)
+      }).catch(e => {
+        callback(false)
+      })
     },
+
     async fetchData(params, callback) {
       const result = await getUserList(params)
       const { page, total, items } = result.data
