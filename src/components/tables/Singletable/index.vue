@@ -1,6 +1,22 @@
 <template>
   <div class="app-container">
-    <datatable :index="true" :nav-btn="true" :nav-btn-detail="false" :fields="fields" :op-btn="true" @fetchData="fetchData" @add="add" @edit="edit" @delete="deleteItems" />
+    <datatable
+      :index="true"
+      :fields="fields"
+      :op-btn="opBtn"
+      :op-btn-detail="opBtnDetail"
+      :op-btn-delete="opBtnDelete"
+      :op-btn-edit="opBtnEdit"
+      :nav-btn="navBtn"
+      :nav-btn-add="navBtnAdd"
+      :nav-btn-detail="navBtnDetail"
+      :nav-btn-edit="navBtnEdit"
+      :nav-btn-delete="navBtnDelete"
+      @fetchData="fetchData"
+      @add="add"
+      @edit="edit"
+      @delete="deleteItems"
+    />
   </div>
 </template>
 
@@ -20,12 +36,50 @@ export default {
   },
 
   data() {
+    return {}
   },
 
   computed: {
     request() {
       return getRequest(this.metaCode)
     },
+
+    opBtn() {
+      return this.meta.opBtn && (this.opBtnDelete || this.opBtnEdit || this.opBtnDetail)
+    },
+
+    opBtnEdit() {
+      return this.meta.opBtnEdit
+    },
+
+    opBtnDelete() {
+      return this.meta.opBtnDelete
+    },
+
+    opBtnDetail() {
+      return this.meta.opBtnDetail
+    },
+
+    navBtn() {
+      return this.meta.navBtn
+    },
+
+    navBtnAdd() {
+      return this.meta.navBtnAdd
+    },
+
+    navBtnDetail() {
+      return this.meta.navBtnDetail
+    },
+
+    navBtnEdit() {
+      return this.meta.navBtnEdit
+    },
+
+    navBtnDelete() {
+      return this.meta.navBtnDelete
+    },
+
     fields() {
       return this.meta.fields
     },
