@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <datatable :index="true" :fields="fields" :op-btn="true" @fetchData="fetchData" @add="add" @edit="edit" @delete="deleteItems" />
+    <datatable :index="true" :nav-btn="true" :nav-btn-detail="false" :fields="fields" :op-btn="true" @fetchData="fetchData" @add="add" @edit="edit" @delete="deleteItems" />
   </div>
 </template>
 

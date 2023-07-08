@@ -156,26 +156,30 @@
       </span>
     </el-dialog>
 
-    <div class="app-header">
+    <div v-if="navBtn" class="app-header">
       <el-button
+        v-if="navBtnAdd"
         size="small"
         type="primary"
         icon="el-icon-plus"
         @click="clickAdd"
       >新增</el-button>
       <el-button
+        v-if="navBtnEdit"
         size="small"
         type="warning"
         icon="el-icon-edit"
         @click="clickEdit"
       >修改</el-button>
       <el-button
+        v-if="navBtnDelete"
         size="small"
         type="danger"
         icon="el-icon-delete"
         @click="clickDelete"
       >删除</el-button>
       <el-button
+        v-if="navBtnDetail"
         size="small"
         type="success"
         icon="el-icon-info"
@@ -299,6 +303,26 @@ export default {
       default: true
     },
     opBtnDelete: { // 是否显示删除按钮
+      type: Boolean,
+      default: true
+    },
+    navBtn: { // 是否展示顶部导航按钮
+      type: Boolean,
+      default: true
+    },
+    navBtnAdd: { // 是否展示顶部导航新增按钮
+      type: Boolean,
+      default: true
+    },
+    navBtnEdit: { // 是否展示顶部导航修改按钮
+      type: Boolean,
+      default: true
+    },
+    navBtnDelete: { // 是否展示顶部导航删除按钮
+      type: Boolean,
+      default: true
+    },
+    navBtnDetail: { // 是否展示顶部导航详情按钮
       type: Boolean,
       default: true
     }
