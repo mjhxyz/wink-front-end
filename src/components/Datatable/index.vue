@@ -1,39 +1,45 @@
 <template>
   <div class="datatable-wrapper">
     <el-dialog
-      title="添加"
-      :visible.sync="showAdd"
+      :title="formTitle"
+      :visible.sync="showForm"
       width="800px"
       :close-on-click-modal="false"
     >
       <!-- 添加信息弹出框 -->
       <el-form
-        ref="addform"
-        :model="addForm"
+        ref="form"
+        :model="form"
         label-width="80px"
         :rules="tableRules"
       >
         <el-form-item
-          v-for="field in addibleFields"
+          v-for="field in formFields"
           :key="field.name"
           :label="field.label"
           :prop="field.name"
         >
           <el-input
             v-if="!field.type || field.type.name === 'text'"
-            v-model="addForm[field.name]"
+            v-model="form[field.name]"
             :placeholder="field.placeholder"
+          />
+          <el-input
+            v-else-if="field.type.name === 'password'"
+            v-model="form[field.name]"
+            :placeholder="field.placeholder"
+            show-password
           />
           <el-date-picker
             v-else-if="field.type.name === 'datetime'"
-            v-model="addForm[field.name]"
+            v-model="form[field.name]"
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             :placeholder="field.placeholder || '选择日期时间'"
           />
           <el-select
             v-else-if="field.type.name === 'select'"
-            v-model="addForm[field.name]"
+            v-model="form[field.name]"
             :placeholder="field.placeholder"
           >
             <el-option
@@ -51,71 +57,11 @@
       >
         <el-button
           type="success"
-          @click="addSubmit"
+          @click="submit"
         >提 交</el-button>
         <el-button
           type="danger"
-          @click="showAdd = false"
-        >关 闭</el-button>
-      </span>
-    </el-dialog>
-
-    <el-dialog
-      title="修改"
-      :visible.sync="showEdit"
-      width="800px"
-      :close-on-click-modal="false"
-    >
-      <el-form
-        ref="editform"
-        :model="editForm"
-        label-width="80px"
-        :rules="tableRules"
-      >
-        <el-form-item
-          v-for="field in editableFields"
-          :key="field.name"
-          :label="field.label"
-          :prop="field.name"
-        >
-          <el-input
-            v-if="!field.type || field.type.name === 'text'"
-            v-model="editForm[field.name]"
-            :placeholder="field.placeholder"
-          />
-          <el-date-picker
-            v-else-if="field.type.name === 'datetime'"
-            v-model="editForm[field.name]"
-            type="datetime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            :placeholder="field.placeholder || '选择日期时间'"
-          />
-          <el-select
-            v-else-if="field.type.name === 'select'"
-            v-model="editForm[field.name]"
-            :placeholder="field.placeholder"
-          >
-            <el-option
-              v-for="item in field.type.params"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <!-- 修改信息弹出框 -->
-      <span
-        slot="footer"
-        class="dialog-footer"
-      >
-        <el-button
-          type="success"
-          @click="editSubmit"
-        >保存修改</el-button>
-        <el-button
-          type="danger"
-          @click="showEdit = false"
+          @click="showForm = false"
         >关 闭</el-button>
       </span>
     </el-dialog>
@@ -275,10 +221,6 @@
 
 <script>
 import { getRequest } from '@/api/meta'
-import { wait } from '@/utils'
-
-// meta select 缓存, key: field
-const metaSelectCache = {}
 
 export default {
   props: {
@@ -334,14 +276,11 @@ export default {
   },
   data() {
     return {
-      addForm: {}, // 新增表单
-      showAdd: false, // 是否显示新增
+      status: 0, // 0: 正常的浏览 1: 添加 2: 修改
+      form: {}, // 表单
 
       showDetail: false, // 是否显示详情
       detailItem: {}, // 详情数据
-
-      editForm: {}, // 修改表单
-      showEdit: false, // 是否显示修改
 
       listLoading: true,
       table: {
@@ -354,6 +293,32 @@ export default {
   },
 
   computed: {
+    showForm: {
+      get() {
+        return this.status === 1 || this.status === 2
+      },
+      set(val) {
+        this.status = 0
+      }
+    },
+    formTitle() {
+      if (this.status === 1) {
+        return '新增'
+      } else if (this.status === 2) {
+        return '修改'
+      } else {
+        return ''
+      }
+    },
+    formFields() {
+      if (this.status === 1) {
+        return this.addibleFields
+      } else if (this.status === 2) {
+        return this.editableFields
+      } else {
+        return []
+      }
+    },
     addibleFields() { // 能新增的字段
       return this.fields.filter(field => field.addible !== false)
     },
@@ -375,6 +340,16 @@ export default {
         }
         if (field.min_length) {
           rule.push({ min: field.min_length, message: `${field.label}最小长度为${field.min_length}`, trigger: 'blur' })
+        }
+        if (field.validate) {
+          rule.push({ validator: (rule, value, callback) => {
+            const res = field.validate(value, this.form)
+            if (res) {
+              callback(new Error(res))
+            } else {
+              callback()
+            }
+          }, trigger: 'blur' })
         }
         rules[field.name] = rule
       }
@@ -419,54 +394,62 @@ export default {
       }
     },
 
+    submit() {
+      if (this.status === 1) {
+        this.addSubmit()
+      } else if (this.status === 2) {
+        this.editSubmit()
+      }
+    },
+
     addSubmit() { // 新增提交
-      this.$refs.addform.validate((valid) => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
-          this.$emit('add', this.addForm, (e) => {
+          this.$emit('add', this.form, (e) => {
             if (e) {
               this.$message.success('新增成功')
               this.fetchData()
             }
           })
-          this.showAdd = false
+          this.status = 0
         }
       })
     },
     clickAdd() { // 点击新增按钮
-      this.addForm = {}
+      this.form = {}
       // 默认值
-      const addForm = {}
+      const form = {}
       for (const field of this.fields) {
         if (field.default !== undefined) {
           if (typeof field.default === 'function') {
-            addForm[field.name] = field.default()
+            form[field.name] = field.default()
           } else {
-            addForm[field.name] = field.default
+            form[field.name] = field.default
           }
         }
       }
-      // this.addForm = Object.assign({}, addForm)
-      this.addForm = { ...addForm }
-      this.showAdd = true
+      // this.form = Object.assign({}, form)
+      this.form = { ...form }
+      this.status = 1
     },
 
     editSubmit() { // 修改提交
-      this.$refs.editform.validate((valid) => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
-          this.$emit('edit', this.editForm, (e) => {
+          this.$emit('edit', this.form, (e) => {
             if (e) {
               this.$message.success('修改成功')
               this.fetchData()
             }
           })
-          this.showEdit = false
+          this.showForm = false
         }
       })
     },
     edit(item) {
       // 需要先拷贝一份，否则会影响到原数据
-      this.editForm = { ...item }
-      this.showEdit = true
+      this.form = { ...item }
+      this.status = 2
     },
     clickEdit() {
       // 获取选中的数据

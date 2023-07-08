@@ -39,21 +39,44 @@ export const userMeta = {
       // width: 100,
       align: 'center',
       placeholder: '请输入用户名',
-      validator: (val, row, index) => {
-        if (val === '') {
-          return '用户名不能为空'
-        }
-      },
       required: true, // 是否必填
       max_length: 10, // 最大长度
       min_length: 2 // 最小长度
+    },
+    {
+      label: '密码',
+      name: 'password',
+      type: {
+        name: 'password'
+      },
+      placeholder: '请输入密码',
+      required: true,
+      max_length: 20,
+      min_length: 6,
+      editable: false,
+      is_hide: true
+    },
+    {
+      label: '确认密码',
+      name: 'repassword',
+      type: {
+        name: 'password'
+      },
+      placeholder: '请再次输入密码',
+      required: true,
+      is_hide: true,
+      editable: false,
+      validate: (val, form) => {
+        if (val !== form.password) {
+          return '两次输入密码不一致'
+        }
+      }
     },
     {
       label: '角色',
       name: 'role',
       // width: 100,
       align: 'center',
-      // type: [{ 'label': '普通用户', 'value': 0 }, { 'label': '管理员', 'value': 1 }, { 'label': '超级管理员', 'value': 2 }],
       type: {
         name: 'meta-select', // 获取 meta 数据的 select
         params: {
