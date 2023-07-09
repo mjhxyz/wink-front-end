@@ -44,6 +44,16 @@ export const roleMeta = {
       min_length: 2 // 最小长度
     },
     {
+      label: '角色描述',
+      name: 'desc',
+      // width: 100,
+      align: 'center',
+      placeholder: '请输入角色描述',
+      required: true, // 是否必填
+      max_length: 30, // 最大长度
+      min_length: 2 // 最小长度
+    },
+    {
       label: '修改时间',
       name: 'update_time',
       width: 200,
