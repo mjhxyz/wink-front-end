@@ -35,7 +35,7 @@ export const userMeta = {
     },
     {
       label: '用户名',
-      name: 'name',
+      name: 'login_id',
       // width: 100,
       align: 'center',
       placeholder: '请输入用户名',
@@ -45,7 +45,7 @@ export const userMeta = {
     },
     {
       label: '密码',
-      name: 'password',
+      name: 'login_pwd',
       type: {
         name: 'password'
       },
@@ -69,14 +69,14 @@ export const userMeta = {
       is_hide_detail: true,
       editable: false,
       validate: (val, form) => {
-        if (val !== form.password) {
+        if (val !== form.login_pwd) {
           return '两次输入密码不一致'
         }
       }
     },
     {
       label: '角色',
-      name: 'role',
+      name: 'rid',
       // width: 100,
       align: 'center',
       type: {
@@ -120,7 +120,8 @@ export const userMeta = {
       type: {
         name: 'datetime'
       },
-      editable: 'readonly',
+      editable: false,
+      addible: false,
       required: true,
       default() {
         return parseTime(new Date())
@@ -134,7 +135,8 @@ export const userMeta = {
       type: {
         name: 'datetime'
       },
-      editable: 'readonly',
+      editable: false,
+      addible: false,
       placeholder: '请选择添加时间',
       validator: (val, row, index) => {
         if (val === '') {

@@ -1,22 +1,9 @@
 <template>
   <div class="app-container">
-    <datatable
-      :index="true"
-      :fields="fields"
-      :op-btn="opBtn"
-      :op-btn-detail="opBtnDetail"
-      :op-btn-delete="opBtnDelete"
-      :op-btn-edit="opBtnEdit"
-      :nav-btn="navBtn"
-      :nav-btn-add="navBtnAdd"
-      :nav-btn-detail="navBtnDetail"
-      :nav-btn-edit="navBtnEdit"
-      :nav-btn-delete="navBtnDelete"
-      @fetchData="fetchData"
-      @add="add"
-      @edit="edit"
-      @delete="deleteItems"
-    />
+    <datatable :index="true" :fields="fields" :op-btn="opBtn" :op-btn-detail="opBtnDetail" :op-btn-delete="opBtnDelete"
+      :op-btn-edit="opBtnEdit" :nav-btn="navBtn" :nav-btn-add="navBtnAdd" :nav-btn-detail="navBtnDetail"
+      :nav-btn-edit="navBtnEdit" :nav-btn-delete="navBtnDelete" @fetchData="fetchData" @add="add" @edit="edit"
+      @delete="deleteItems" @deleteOne="deleteOne" />
   </div>
 </template>
 
@@ -106,7 +93,15 @@ export default {
 
     deleteItems(items, callback) { // delete 是关键字，不能用
       // TODO 删除用户/删除单个用户
-      this.request.delete(items).then(res => {
+      this.request.deleteMany(items).then(res => {
+        callback(true)
+      }).catch(e => {
+        callback(e)
+      })
+    },
+
+    deleteOne(item, callback) {
+      this.request.delete(item).then(res => {
         callback(true)
       }).catch(e => {
         callback(e)

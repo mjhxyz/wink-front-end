@@ -61,7 +61,8 @@ export const roleMeta = {
       type: {
         name: 'datetime'
       },
-      editable: 'readonly',
+      editable: false,
+      addible: false,
       required: true,
       default() {
         return parseTime(new Date())
@@ -75,7 +76,8 @@ export const roleMeta = {
       type: {
         name: 'datetime'
       },
-      editable: 'readonly',
+      editable: false,
+      addible: false,
       placeholder: '请选择添加时间',
       validator: (val, row, index) => {
         if (val === '') {

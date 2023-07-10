@@ -6,9 +6,9 @@ const Mock = require('mockjs')
 const data = Mock.mock({
   'items|120': [{
     id: '@id',
-    name: '@word(3, 8)',
+    login_id: '@word(3, 8)',
     'status|1': [0, 1],
-    'role|1': [1, 2, 3, 4],
+    'rid|1': [1, 2, 3, 4],
     add_time: '@datetime',
     update_time: '@datetime'
   }]
