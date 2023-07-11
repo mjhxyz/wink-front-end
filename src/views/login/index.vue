@@ -7,20 +7,20 @@
         <h3 class="title">后台管理系统登录</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="login_id">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input ref="username" v-model="loginForm.username" placeholder="用户名" name="username" type="text" tabindex="1"
+        <el-input ref="login_id" v-model="loginForm.login_id" placeholder="用户名" name="login_id" type="text" tabindex="1"
           auto-complete="on" />
       </el-form-item>
 
-      <el-form-item prop="password">
+      <el-form-item prop="login_pwd">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
-        <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType" placeholder="密码"
-          name="password" tabindex="2" auto-complete="on" @keyup.enter.native="handleLogin" />
+        <el-input :key="passwordType" ref="password" v-model="loginForm.login_pwd" :type="passwordType" placeholder="密码"
+          name="login_pwd" tabindex="2" auto-complete="on" @keyup.enter.native="handleLogin" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
@@ -30,8 +30,8 @@
         @click.native.prevent="handleLogin">登录</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+        <span style="margin-right:20px;">login_id: admin</span>
+        <span> login_pwd: any</span>
       </div>
 
     </el-form>
@@ -39,12 +39,11 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
+    const validateLoginId = (rule, value, callback) => {
       if (value.length < 2 || value.length > 20) {
         callback(new Error('用户名长度在 2 到 20 个字符'))
       } else {
@@ -60,12 +59,12 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
-        password: ''
+        login_id: '',
+        login_pwd: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        login_id: [{ required: true, trigger: 'blur', validator: validateLoginId }],
+        login_pwd: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
       passwordType: 'password',
