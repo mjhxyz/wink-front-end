@@ -92,8 +92,9 @@ export default {
     },
 
     deleteItems(items, callback) { // delete 是关键字，不能用
-      // TODO 删除用户/删除单个用户
-      this.request.deleteMany(items).then(res => {
+      // 获取到所有的 pk(id)
+      const ids = items.map(item => item[this.meta.pk || 'id'])
+      this.request.deleteMany({ ids }).then(res => {
         callback(true)
       }).catch(e => {
         callback(e)
