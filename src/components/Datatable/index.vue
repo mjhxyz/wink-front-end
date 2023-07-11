@@ -2,7 +2,7 @@
   <div class="datatable-wrapper">
     <el-dialog :title="formTitle" :visible.sync="showForm" width="800px" :close-on-click-modal="false">
       <!-- 添加信息弹出框 -->
-      <el-form ref="form" :model="form" label-width="80px" :rules="tableRules">
+      <el-form ref="form" :model="form" label-width="150px" :rules="tableRules">
         <el-form-item v-for="field in formFields" :key="field.name" :label="field.label" :prop="field.name">
           <el-input v-if="!field.type || field.type.name === 'text'" v-model="form[field.name]"
             :placeholder="field.placeholder" />

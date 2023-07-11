@@ -168,6 +168,12 @@ export const constantRoutes = [
     meta: { title: '平台管理', icon: 'el-icon-s-help' },
     children: [
       {
+        path: 'meta',
+        name: 'Meta',
+        component: () => import('@/views/planform/meta'),
+        meta: { title: 'Meta管理', icon: 'table' }
+      },
+      {
         path: 'user',
         name: 'User',
         component: () => import('@/views/planform/user'),
