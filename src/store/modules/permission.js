@@ -24,8 +24,13 @@ const actions = {
             function buildTree(tree) {
                 let route = {
                     path: `/menu/${tree.code}`,
-                    component: () => import('@/views/planform/meta'),
+                    component: () => import('@/components/tables/Singletable/wrapper'),
                     redirect: tree.redirect,
+                    props: route => {
+                        return {
+                            setting: tree.setting
+                        }
+                    },
                     name: tree.code,
                     meta: { title: tree.name, icon: 'tree' },
                     children: []

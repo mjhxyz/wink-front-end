@@ -73,6 +73,12 @@ export const constantRoutes = [
     meta: { title: '平台管理', icon: 'el-icon-s-help' },
     children: [
       {
+        path: 'metaX',
+        name: 'MetaX',
+        component: () => import('@/views/planform/metax'),
+        meta: { title: 'Meta管理X', icon: 'table' }
+      },
+      {
         path: 'meta',
         name: 'Meta',
         component: () => import('@/views/planform/meta'),

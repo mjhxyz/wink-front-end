@@ -3,7 +3,11 @@
     <datatable :index="true" :fields="fields" :op-btn="opBtn" :op-btn-detail="opBtnDetail" :op-btn-delete="opBtnDelete"
       :op-btn-edit="opBtnEdit" :nav-btn="navBtn" :nav-btn-add="navBtnAdd" :nav-btn-detail="navBtnDetail"
       :nav-btn-edit="navBtnEdit" :nav-btn-delete="navBtnDelete" @fetchData="fetchData" @add="add" @edit="edit"
-      @delete="deleteItems" @deleteOne="deleteOne" />
+      @delete="deleteItems" @deleteOne="deleteOne" :pagination="pagination" @row-click="rowClick">
+      <template #nav-btn>
+        <slot name="nav-btn"></slot>
+      </template>
+    </datatable>
   </div>
 </template>
 
@@ -16,6 +20,10 @@ export default {
     Datatable
   },
   props: {
+    pagination: {
+      type: Boolean,
+      default: true
+    },
     meta: { // meta 描述
       type: Object,
       required: true
@@ -75,6 +83,9 @@ export default {
     }
   },
   methods: {
+    rowClick(row, column, event) {
+      this.$emit('row-click', row, column, event)
+    },
     add(item, callback) {
       this.request.add(item).then(res => {
         callback(true)

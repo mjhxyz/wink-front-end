@@ -14,8 +14,8 @@ export const metaMeta = {
   opBtnDetail: true,
 
   navBtn: true,
-  navBtnAdd: true,
-  navBtnEdit: true,
+  navBtnAdd: false,
+  navBtnEdit: false,
   navBtnDelete: true,
   navBtnDetail: true,
 

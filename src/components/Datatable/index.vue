@@ -40,13 +40,14 @@
     </el-dialog>
 
     <div v-if="navBtn" class="app-header">
+      <slot name="nav-btn"></slot>
       <el-button v-if="navBtnAdd" size="small" type="primary" icon="el-icon-plus" @click="clickAdd">新增</el-button>
       <el-button v-if="navBtnEdit" size="small" type="warning" icon="el-icon-edit" @click="clickEdit">修改</el-button>
       <el-button v-if="navBtnDelete" size="small" type="danger" icon="el-icon-delete" @click="clickDelete">删除</el-button>
       <el-button v-if="navBtnDetail" size="small" type="success" icon="el-icon-info" @click="clickDetail">详情</el-button>
     </div>
     <el-table ref="table" v-loading="listLoading" class="app-body" :data="table.list" element-loading-text="加载中..." border
-      fit height="100%" highlight-current-row>
+      @row-click="triggerRowClick" fit height="100%" highlight-current-row>
       <el-table-column type="selection" width="55" />
       <el-table-column v-if="index" align="center" label="#" width="95">
         <template slot-scope="scope">
@@ -76,7 +77,7 @@
       </el-table-column>
     </el-table>
     <div class="app-footer">
-      <el-pagination background layout="total, sizes, prev, pager, next" :total="table.total"
+      <el-pagination v-if="pagination" background layout="total, sizes, prev, pager, next" :total="table.total"
         :current-page.sync="table.curPage" :page-sizes="[5, 10, 15, 20, 50, 100]" @size-change="sizeChange"
         @current-change="currentChange" />
     </div>
@@ -89,6 +90,10 @@ import { getRequest } from '@/api/meta'
 
 export default {
   props: {
+    pagination: { // 是否分页
+      type: Boolean,
+      default: true
+    },
     index: { // 是否显示序号
       type: Boolean,
       default: true
@@ -232,6 +237,9 @@ export default {
     this.fetchData()
   },
   methods: {
+    triggerRowClick(row, column, event) {
+      this.$emit('row-click', row, column, event)
+    },
     async beforeShowForm() { // 显示表单前
       // meta 选择器
       for (const field of this.fields) {
@@ -399,9 +407,12 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-      const params = {
-        page: this.table.page,
-        pageSize: this.table.pageSize
+      let params = {}
+      if (this.pagination) {
+        params = {
+          page: this.table.page,
+          pageSize: this.table.pageSize
+        }
       }
       this.$emit('fetchData', params, (response) => {
         this.table.list = response.items
