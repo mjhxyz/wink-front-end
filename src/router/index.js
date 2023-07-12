@@ -174,6 +174,12 @@ export const constantRoutes = [
         meta: { title: 'Meta管理', icon: 'table' }
       },
       {
+        path: 'menu',
+        name: 'Menu',
+        component: () => import('@/views/planform/menu'),
+        meta: { title: '菜单管理', icon: 'tree' }
+      },
+      {
         path: 'user',
         name: 'User',
         component: () => import('@/views/planform/user'),

@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'XiXi管理系统',
+  title: 'Wink管理系统',
 
   /**
    * @type {boolean} true | false
