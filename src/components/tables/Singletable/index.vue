@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
-    <datatable :index="true" :fields="fields" :op-btn="opBtn" :op-btn-detail="opBtnDetail" :op-btn-delete="opBtnDelete"
-      :op-btn-edit="opBtnEdit" :nav-btn="navBtn" :nav-btn-add="navBtnAdd" :nav-btn-detail="navBtnDetail"
-      :nav-btn-edit="navBtnEdit" :nav-btn-delete="navBtnDelete" @fetchData="fetchData" @add="add" @edit="edit"
-      @delete="deleteItems" @deleteOne="deleteOne" :pagination="pagination" @row-click="rowClick">
+    <datatable ref="datatable" :index="true" :fields="fields" :op-btn="opBtn" :op-btn-detail="opBtnDetail"
+      :op-btn-delete="opBtnDelete" :op-btn-edit="opBtnEdit" :nav-btn="navBtn" :nav-btn-add="navBtnAdd"
+      :nav-btn-detail="navBtnDetail" :nav-btn-edit="navBtnEdit" :nav-btn-delete="navBtnDelete" @fetchData="fetchData"
+      @add="add" @edit="edit" @delete="deleteItems" @deleteOne="deleteOne" :pagination="pagination" @row-click="rowClick">
       <template #nav-btn>
         <slot name="nav-btn"></slot>
       </template>
@@ -86,6 +86,11 @@ export default {
     rowClick(row, column, event) {
       this.$emit('row-click', row, column, event)
     },
+
+    triggerFetchData(params) { // 触发刷新
+      this.$refs.datatable.fetchData(params)
+    },
+
     add(item, callback) {
       this.request.add(item).then(res => {
         callback(true)

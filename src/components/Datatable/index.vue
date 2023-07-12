@@ -405,9 +405,9 @@ export default {
       this.table.page = val
       this.fetchData()
     },
-    fetchData() {
+    fetchData(e) {
       this.listLoading = true
-      let params = {}
+      let params = e || {}
       if (this.pagination) {
         params = {
           page: this.table.page,

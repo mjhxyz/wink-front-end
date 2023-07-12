@@ -1,11 +1,13 @@
 <template>
     <div class="app-container">
+
         <singletable :meta="masterMeta" @row-click="rowClick">
             <template #nav-btn>
                 <el-button size="small" type="primary" icon="el-icon-plus">添加系统菜单</el-button>
             </template>
         </singletable>
-        <singletable :meta="slaveMeta" :pagination="false" />
+
+        <singletable ref="slave" :meta="slaveMeta" :pagination="false" />
     </div>
 </template>
 
@@ -22,7 +24,7 @@
 import Singletable from '@/components/tables/Singletable/index.vue'
 // TODO DELETE
 import { metaMeta } from '@/utils/meta/meta'
-import { userMeta } from '@/utils/meta/user'
+import { fieldMeta } from '@/utils/meta/field'
 
 export default {
     props: {
@@ -34,6 +36,8 @@ export default {
 
     methods: {
         rowClick(row, column, event) {
+            // 刷新子表
+            this.$refs.slave.triggerFetchData({ masterKey: row.id })
             console.log(row, column, event)
         }
     },
@@ -44,10 +48,7 @@ export default {
             return metaMeta
         },
         slaveMeta() {
-            return userMeta
-            return {
-                code: 'meta',
-            }
+            return fieldMeta
         }
     },
     components: {
