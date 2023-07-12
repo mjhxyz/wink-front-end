@@ -4,7 +4,7 @@
       <div class="dashboard-name">
         {{ name }}
       </div>
-      {{ role }}, 欢迎登录
+      欢迎登录
     </div>
     <div class="dashboard-text"></div>
   </div>
@@ -18,7 +18,6 @@ export default {
   computed: {
     ...mapGetters([
       'name',
-      'role'
     ])
   }
 }
