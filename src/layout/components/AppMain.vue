@@ -20,13 +20,18 @@ export default {
 <style scoped>
 .app-main {
   /*50 = navbar  */
-  height: 100vh;
+  height: 100%;
   width: 100%;
   position: relative;
   overflow: hidden;
+  background-color: #f0f2f5;
+  box-sizing: border-box;
+  padding: 20px;
 }
 .fixed-header+.app-main {
-  padding-top: 50px;
+  /* padding-top: 50px; */
+  /* header + padding 的距离 */
+  padding-top: 70px;
 }
 </style>
 
