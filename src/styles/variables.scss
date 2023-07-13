@@ -1,13 +1,13 @@
 // sidebar
-$menuText:#bfcbd9;
-$menuActiveText:#409EFF;
-$subMenuActiveText:#f4f4f5; //https://github.com/ElemeFE/element/issues/12951
+$menuText: #bfcbd9;
+$menuActiveText: #409EFF;
+$subMenuActiveText: #f4f4f5; //https://github.com/ElemeFE/element/issues/12951
 
-$menuBg:#304156;
-$menuHover:#263445;
+$menuBg: #304156;
+$menuHover: #263445;
 
-$subMenuBg:#1f2d3d;
-$subMenuHover:#001528;
+$subMenuBg: #1f2d3d;
+$subMenuHover: #001528;
 
 $sideBarWidth: 210px;
 
@@ -23,3 +23,12 @@ $sideBarWidth: 210px;
   subMenuHover: $subMenuHover;
   sideBarWidth: $sideBarWidth;
 }
+
+
+// 紫色环境的变量
+
+// $pMain: #7559ff;
+// $pPink: #d54bd8;
+// $pDanger: #e02727;
+// $pBlue: #5298e8;
+// $pGreen: #1bdf2f;
