@@ -1,13 +1,21 @@
 // sidebar
-$menuText: #bfcbd9;
-$menuActiveText: #409EFF;
-$subMenuActiveText: #f4f4f5; //https://github.com/ElemeFE/element/issues/12951
 
-$menuBg: #304156;
-$menuHover: #263445;
+$pMain: #7559ff;
+$pPink: #d54bd8;
+$pDanger: #e02727;
+$pBlue: #5298e8;
+$pGreen: #1bdf2f;
 
-$subMenuBg: #1f2d3d;
-$subMenuHover: #001528;
+$menuText: #606266;
+$menuActiveText: $pMain;
+$subMenuActiveText: $pPink; //https://github.com/ElemeFE/element/issues/12951
+
+$menuBg: #fff;
+$menuHover: transparent;
+$menuHoverText: #000;
+
+$subMenuBg: transparent;
+$subMenuHover: #f4f4f5;
 
 $sideBarWidth: 210px;
 

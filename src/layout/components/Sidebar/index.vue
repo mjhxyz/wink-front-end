@@ -17,6 +17,7 @@ import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
 
+
 export default {
   components: { SidebarItem, Logo },
   computed: {
@@ -48,3 +49,9 @@ export default {
   },
 }
 </script>
+
+<style scope>
+.el-menu-item.is-active {
+  background-color: #f0f2f5 !important;
+}
+</style>
