@@ -1,8 +1,8 @@
 <template>
     <div class="app-container">
 
-        <el-dialog title="添加系统菜单" :visible.sync="show" width="30%" :close-on-click-modal="false">
-            <el-form :rules="formRules" ref="form" :model="form" label-width="120px">
+        <el-dialog title="添加Meta数据" :visible.sync="show" width="800px" :close-on-click-modal="false">
+            <el-form :inline="true" :rules="formRules" ref="form" :model="form" label-width="120px">
                 <el-form-item label="数据表" prop="table">
                     <el-cascader ref="table" v-model="form.table" :props="selectProps" placeholder="请选择数据源和数据表"
                         style="width: 100%;" clearable filterable></el-cascader>
@@ -20,9 +20,9 @@
             </span>
         </el-dialog>
 
-        <singletable :meta="masterMeta" @row-click="rowClick">
+        <singletable ref="master" :meta="masterMeta" @row-click="rowClick">
             <template #nav-btn>
-                <el-button @click="addMenu" size="small" type="primary" icon="el-icon-plus">添加系统菜单</el-button>
+                <el-button @click="addMenu" size="small" type="primary" icon="el-icon-plus">添加Meta数据</el-button>
             </template>
         </singletable>
 
@@ -65,7 +65,11 @@ export default {
 
     data() {
         return {
-            form: {},
+            form: {
+                table: [],
+                name: '',
+                code: ''
+            },
             formRules: {
                 table: [
                     { required: true, message: '请选择数据表', trigger: 'change' }
@@ -125,6 +129,7 @@ export default {
                     data.source = source
                     addMeta(data).then(res => {
                         this.$message.success('添加成功')
+                        this.$refs.master.triggerFetchData()
                         this.show = false
                     })
                 }

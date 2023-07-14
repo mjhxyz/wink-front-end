@@ -174,7 +174,7 @@ export const fieldMeta = {
       min_length: 2 // 最小长度
     },
     {
-      name: 'is_addible',
+      name: 'is_addable',
       label: '是否可新增',
       // width: 100,
       align: 'center',

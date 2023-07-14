@@ -1,18 +1,18 @@
 <template>
-  <Masterslave :setting="meta" />
+  <singletable :meta="meta" />
 </template>
 
 <script>
 import { metaMeta } from '@/utils/meta/meta'
-import Masterslave from '@/components/tables/Masterslave/index.vue'
+import Singletable from '@/components/tables/Singletable/index.vue'
 
 export default {
   components: {
-    Masterslave
+    Singletable
   },
   data() {
     return {
-      meta: '{}'
+      meta: metaMeta
     }
   }
 }
