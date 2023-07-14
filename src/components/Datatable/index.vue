@@ -90,6 +90,11 @@ import { getRequest } from '@/api/meta'
 
 export default {
   props: {
+    fetchOnCreated: { // 是否在组件创建时自动加载数据
+      type: Boolean,
+      default: true
+    },
+
     pagination: { // 是否分页
       type: Boolean,
       default: true
@@ -152,7 +157,7 @@ export default {
       showDetail: false, // 是否显示详情
       detailItem: {}, // 详情数据
 
-      listLoading: true,
+      listLoading: false,
       table: {
         list: [],
         total: 0,
@@ -234,7 +239,9 @@ export default {
 
   async created() {
     await this.beforeShowForm()
-    this.fetchData()
+    if (this.fetchOnCreated) {
+      this.fetchData()
+    }
   },
   methods: {
     triggerRowClick(row, column, event) {

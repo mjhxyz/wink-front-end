@@ -3,7 +3,8 @@
     <datatable ref="datatable" :index="true" :fields="fields" :op-btn="opBtn" :op-btn-detail="opBtnDetail"
       :op-btn-delete="opBtnDelete" :op-btn-edit="opBtnEdit" :nav-btn="navBtn" :nav-btn-add="navBtnAdd"
       :nav-btn-detail="navBtnDetail" :nav-btn-edit="navBtnEdit" :nav-btn-delete="navBtnDelete" @fetchData="fetchData"
-      @add="add" @edit="edit" @delete="deleteItems" @deleteOne="deleteOne" :pagination="pagination" @row-click="rowClick">
+      @add="add" @edit="edit" @delete="deleteItems" @deleteOne="deleteOne" :pagination="pagination" @row-click="rowClick"
+      :fetchOnCreated="fetchOnCreated">
       <template #nav-btn>
         <slot name="nav-btn"></slot>
       </template>
@@ -20,6 +21,10 @@ export default {
     Datatable
   },
   props: {
+    fetchOnCreated: { // 是否在创建时就获取数据
+      type: Boolean,
+      default: true
+    },
     pagination: {
       type: Boolean,
       default: true
