@@ -24,7 +24,7 @@ const actions = {
             function buildTree(tree) {
                 let route = {
                     path: `/menu/${tree.code}`,
-                    component: () => import('@/components/tables/Singletable/wrapper'),
+                    component: () => import('@/components/tables/Singletable/temp'),
                     redirect: tree.redirect,
                     props: route => {
                         return {

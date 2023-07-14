@@ -7,3 +7,12 @@ export function addMeta(data) {
         data
     })
 }
+
+
+export function getMetaList(params) {
+    return request({
+        url: `/meta/all`,
+        method: 'get',
+        params
+    })
+}

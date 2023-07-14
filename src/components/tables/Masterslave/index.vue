@@ -22,7 +22,7 @@
 
         <singletable ref="master" :meta="masterMeta" @row-click="rowClick">
             <template #nav-btn>
-                <el-button @click="addMenu" size="small" type="primary" icon="el-icon-plus">添加Meta数据</el-button>
+                <el-button @click="addMeta" size="small" type="primary" icon="el-icon-plus">添加Meta数据</el-button>
             </template>
         </singletable>
 
@@ -135,7 +135,7 @@ export default {
                 }
             })
         },
-        addMenu() {
+        addMeta() {
             this.show = true
         },
 

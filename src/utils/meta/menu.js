@@ -14,7 +14,7 @@ export const menuMeta = {
   opBtnDetail: true,
 
   navBtn: true,
-  navBtnAdd: true,
+  navBtnAdd: false,
   navBtnEdit: true,
   navBtnDelete: true,
   navBtnDetail: true,

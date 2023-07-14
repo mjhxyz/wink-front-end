@@ -12,3 +12,13 @@ export function getMenuTree(params) {
         params
     })
 }
+
+
+// 添加菜单
+export function addMenu(data) {
+    return request({
+        url: `/menu/add_menu`,
+        method: 'post',
+        data
+    })
+}
