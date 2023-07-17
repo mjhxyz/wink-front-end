@@ -1,12 +1,29 @@
 <template>
   <div class="app-container">
-    <datatable ref="datatable" :index="true" :fields="fields" :op-btn="opBtn" :op-btn-detail="opBtnDetail"
-      :op-btn-delete="opBtnDelete" :op-btn-edit="opBtnEdit" :nav-btn="navBtn" :nav-btn-add="navBtnAdd"
-      :nav-btn-detail="navBtnDetail" :nav-btn-edit="navBtnEdit" :nav-btn-delete="navBtnDelete" @fetchData="fetchData"
-      @add="add" @edit="edit" @delete="deleteItems" @deleteOne="deleteOne" :pagination="pagination" @row-click="rowClick"
-      :fetchOnCreated="fetchOnCreated">
+    <datatable
+      ref="datatable"
+      :index="true"
+      :fields="fields"
+      :op-btn="opBtn"
+      :op-btn-detail="opBtnDetail"
+      :op-btn-delete="opBtnDelete"
+      :op-btn-edit="opBtnEdit"
+      :nav-btn="navBtn"
+      :nav-btn-add="navBtnAdd"
+      :nav-btn-detail="navBtnDetail"
+      :nav-btn-edit="navBtnEdit"
+      :nav-btn-delete="navBtnDelete"
+      :pagination="pagination"
+      :fetch-on-created="fetchOnCreated"
+      @fetchData="fetchData"
+      @add="add"
+      @edit="edit"
+      @delete="deleteItems"
+      @deleteOne="deleteOne"
+      @row-click="rowClick"
+    >
       <template #nav-btn>
-        <slot name="nav-btn"></slot>
+        <slot name="nav-btn" />
       </template>
     </datatable>
   </div>

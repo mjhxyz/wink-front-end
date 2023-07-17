@@ -2,16 +2,33 @@
   <div class="datatable-wrapper">
     <el-dialog :title="formTitle" :visible.sync="showForm" width="800px" :close-on-click-modal="false">
       <!-- 添加信息弹出框 -->
-      <el-form :inline="true" ref="form" :model="form" label-width="150px" :rules="tableRules">
+      <el-form ref="form" :inline="true" :model="form" label-width="150px" :rules="tableRules">
         <el-form-item v-for="field in formFields" :key="field.name" :label="field.label" :prop="field.name">
-          <winkinput v-if="!field.type || field.type.name === 'text'" :placeholder="field.placeholder"
-            v-model="form[field.name]" />
-          <winkpassword v-else-if="field.type.name === 'password'" v-model="form[field.name]"
-            :placeholder="field.placeholder" />
-          <el-date-picker v-else-if="field.type.name === 'datetime'" v-model="form[field.name]" type="datetime"
-            value-format="yyyy-MM-dd HH:mm:ss" :placeholder="field.placeholder || '选择日期时间'" />
-          <winkselect v-else-if="field.type.name === 'select'" :label="field.label" :name="field.name"
-            :placeholder="field.placeholder" :value.sync="form[field.name]" :options="field.type.params" />
+          <winkinput
+            v-if="!field.type || field.type.name === 'text'"
+            v-model="form[field.name]"
+            :placeholder="field.placeholder"
+          />
+          <winkpassword
+            v-else-if="field.type.name === 'password'"
+            v-model="form[field.name]"
+            :placeholder="field.placeholder"
+          />
+          <el-date-picker
+            v-else-if="field.type.name === 'datetime'"
+            v-model="form[field.name]"
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :placeholder="field.placeholder || '选择日期时间'"
+          />
+          <winkselect
+            v-else-if="field.type.name === 'select'"
+            :label="field.label"
+            :name="field.name"
+            :placeholder="field.placeholder"
+            :value.sync="form[field.name]"
+            :options="field.type.params"
+          />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -39,14 +56,24 @@
     </el-dialog>
 
     <div v-if="navBtn" class="app-header">
-      <slot name="nav-btn"></slot>
+      <slot name="nav-btn" />
       <el-button v-if="navBtnAdd" size="small" type="primary" icon="el-icon-plus" @click="clickAdd">新增</el-button>
       <el-button v-if="navBtnEdit" size="small" type="warning" icon="el-icon-edit" @click="clickEdit">修改</el-button>
       <el-button v-if="navBtnDelete" size="small" type="danger" icon="el-icon-delete" @click="clickDelete">删除</el-button>
       <el-button v-if="navBtnDetail" size="small" type="success" icon="el-icon-info" @click="clickDetail">详情</el-button>
     </div>
-    <el-table ref="table" v-loading="listLoading" class="app-body" :data="table.list" element-loading-text="加载中..." border
-      @row-click="triggerRowClick" fit height="100%" highlight-current-row>
+    <el-table
+      ref="table"
+      v-loading="listLoading"
+      class="app-body"
+      :data="table.list"
+      element-loading-text="加载中..."
+      border
+      fit
+      height="100%"
+      highlight-current-row
+      @row-click="triggerRowClick"
+    >
       <el-table-column type="selection" width="55" />
       <el-table-column v-if="index" align="center" label="#" width="95">
         <template slot-scope="scope">
@@ -66,19 +93,41 @@
       </el-table-column>
       <el-table-column v-if="opBtn" :label="'操作'" align="center" width="300" fixed="right">
         <template slot-scope="scope">
-          <el-button v-if="opBtnEdit" size="mini" type="warning" icon="el-icon-edit"
-            @click="edit(scope.row)">修改</el-button>
-          <el-button v-if="opBtnDetail" size="mini" type="success" icon="el-icon-info"
-            @click="detail(scope.row)">详情</el-button>
-          <el-button v-if="opBtnDelete" size="mini" type="danger" icon="el-icon-delete"
-            @click="deleteItems([scope.row])">删除</el-button>
+          <el-button
+            v-if="opBtnEdit"
+            size="mini"
+            type="warning"
+            icon="el-icon-edit"
+            @click="edit(scope.row)"
+          >修改</el-button>
+          <el-button
+            v-if="opBtnDetail"
+            size="mini"
+            type="success"
+            icon="el-icon-info"
+            @click="detail(scope.row)"
+          >详情</el-button>
+          <el-button
+            v-if="opBtnDelete"
+            size="mini"
+            type="danger"
+            icon="el-icon-delete"
+            @click="deleteItems([scope.row])"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="app-footer">
-      <el-pagination v-if="pagination" background layout="total, sizes, prev, pager, next" :total="table.total"
-        :current-page.sync="table.curPage" :page-sizes="[5, 10, 15, 20, 50, 100]" @size-change="sizeChange"
-        @current-change="currentChange" />
+      <el-pagination
+        v-if="pagination"
+        background
+        layout="total, sizes, prev, pager, next"
+        :total="table.total"
+        :current-page.sync="table.curPage"
+        :page-sizes="[5, 10, 15, 20, 50, 100]"
+        @size-change="sizeChange"
+        @current-change="currentChange"
+      />
     </div>
 
   </div>
@@ -94,7 +143,7 @@ export default {
   components: {
     Winkselect,
     Winkinput,
-    Winkpassword,
+    Winkpassword
   },
   props: {
     fetchOnCreated: { // 是否在组件创建时自动加载数据
