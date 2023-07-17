@@ -109,9 +109,9 @@ export default {
             for (let i = 0; i < fields.length; i++) {
                 const field = fields[i]
                 console.log(field)
-                // field.type = {
-                //     name: 'text'
-                // }
+                field.type = {
+                    name: 'text'
+                }
             }
 
 

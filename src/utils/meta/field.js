@@ -99,7 +99,6 @@ export const fieldMeta = {
       // width: 100,
       align: 'center',
       placeholder: '请输入字段对齐方式',
-      required: true, // 是否必填
       max_length: 30, // 最大长度
       min_length: 2 // 最小长度
     },
@@ -120,8 +119,8 @@ export const fieldMeta = {
       align: 'center',
       placeholder: '请输入字段是否必填',
       required: true, // 是否必填
-      max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      max_length: 1, // 最大长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'is_hide',
@@ -130,8 +129,8 @@ export const fieldMeta = {
       align: 'center',
       placeholder: '请输入字段是否隐藏',
       required: true, // 是否必填
-      max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      max_length: 1, // 最大长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'max_length',
@@ -139,7 +138,6 @@ export const fieldMeta = {
       // width: 100,
       align: 'center',
       placeholder: '请输入字段最大长度',
-      required: true, // 是否必填
       max_length: 30, // 最大长度
       min_length: 2 // 最小长度
     },
@@ -149,7 +147,6 @@ export const fieldMeta = {
       // width: 100,
       align: 'center',
       placeholder: '请输入字段最小长度',
-      required: true, // 是否必填
       max_length: 30, // 最大长度
       min_length: 2 // 最小长度
     },
@@ -159,7 +156,6 @@ export const fieldMeta = {
       // width: 100,
       align: 'center',
       placeholder: '请输入字段默认值',
-      required: true, // 是否必填
       max_length: 30, // 最大长度
       min_length: 2 // 最小长度
     },
@@ -170,8 +166,8 @@ export const fieldMeta = {
       align: 'center',
       placeholder: '请输入字段是否可编辑',
       required: true, // 是否必填
-      max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      max_length: 1, // 最大长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'is_addable',
@@ -180,8 +176,8 @@ export const fieldMeta = {
       align: 'center',
       placeholder: '请输入字段是否可新增',
       required: true, // 是否必填
-      max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      max_length: 1, // 最大长度
+      min_length: 1 // 最小长度
     },
     {
       label: '修改时间',
