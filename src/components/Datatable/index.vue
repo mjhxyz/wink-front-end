@@ -10,9 +10,11 @@
             show-password />
           <el-date-picker v-else-if="field.type.name === 'datetime'" v-model="form[field.name]" type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss" :placeholder="field.placeholder || '选择日期时间'" />
-          <el-select v-else-if="field.type.name === 'select'" v-model="form[field.name]" :placeholder="field.placeholder">
+          <!-- <el-select v-else-if="field.type.name === 'select'" v-model="form[field.name]" :placeholder="field.placeholder">
             <el-option v-for="item in field.type.params" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
+          </el-select> -->
+          <winkselect v-else-if="field.type.name === 'select'" :label="field.label" :name="field.name"
+            :placeholder="field.placeholder" :value.sync="form[field.name]" :options="field.type.params" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -87,8 +89,12 @@
 
 <script>
 import { getRequest } from '@/api/meta'
+import Winkselect from '@/components/WinkForm/Winkselect'
 
 export default {
+  components: {
+    Winkselect
+  },
   props: {
     fetchOnCreated: { // 是否在组件创建时自动加载数据
       type: Boolean,
