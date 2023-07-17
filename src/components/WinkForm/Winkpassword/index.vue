@@ -1,6 +1,6 @@
-<!-- 文本框 -->
+<!-- 密码框 -->
 <template>
-    <el-input class="wink-form-item" v-model="val" :placeholder="placeholder" @change="change" />
+    <el-input class="wink-form-item" v-model="val" :placeholder="placeholder" @change="change" show-password />
 </template>
 
 <script>

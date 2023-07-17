@@ -1,6 +1,6 @@
+<!-- 下拉框 -->
 <template>
-    <el-select :value="value" :placeholder="placeholder" @change="change">
-        <el-option key="" label="" value="" />
+    <el-select class="wink-form-item" :value="value" :placeholder="placeholder" @change="change">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
 </template>
