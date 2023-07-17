@@ -4,15 +4,12 @@
       <!-- 添加信息弹出框 -->
       <el-form :inline="true" ref="form" :model="form" label-width="150px" :rules="tableRules">
         <el-form-item v-for="field in formFields" :key="field.name" :label="field.label" :prop="field.name">
-          <el-input v-if="!field.type || field.type.name === 'text'" v-model="form[field.name]"
-            :placeholder="field.placeholder" />
+          <winkinput v-if="!field.type || field.type.name === 'text'" :placeholder="field.placeholder"
+            v-model="form[field.name]" />
           <el-input v-else-if="field.type.name === 'password'" v-model="form[field.name]" :placeholder="field.placeholder"
             show-password />
           <el-date-picker v-else-if="field.type.name === 'datetime'" v-model="form[field.name]" type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss" :placeholder="field.placeholder || '选择日期时间'" />
-          <!-- <el-select v-else-if="field.type.name === 'select'" v-model="form[field.name]" :placeholder="field.placeholder">
-            <el-option v-for="item in field.type.params" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select> -->
           <winkselect v-else-if="field.type.name === 'select'" :label="field.label" :name="field.name"
             :placeholder="field.placeholder" :value.sync="form[field.name]" :options="field.type.params" />
         </el-form-item>
@@ -90,10 +87,12 @@
 <script>
 import { getRequest } from '@/api/meta'
 import Winkselect from '@/components/WinkForm/Winkselect'
+import Winkinput from '@/components/WinkForm/Winkinput'
 
 export default {
   components: {
-    Winkselect
+    Winkselect,
+    Winkinput
   },
   props: {
     fetchOnCreated: { // 是否在组件创建时自动加载数据

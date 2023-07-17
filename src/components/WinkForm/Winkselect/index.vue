@@ -22,6 +22,7 @@ export default {
         },
     },
     data() {
+        return {}
     },
     methods: {
         change(value) {
