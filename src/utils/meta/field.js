@@ -40,7 +40,7 @@ export const fieldMeta = {
       align: 'center',
       placeholder: '请输入字段编号',
       required: true, // 是否必填
-      max_length: 10, // 最大长度
+      max_length: 32, // 最大长度
       min_length: 1 // 最小长度
     },
     {
@@ -160,7 +160,7 @@ export const fieldMeta = {
       min_length: 1 // 最小长度
     },
     {
-      name: 'is_editable',
+      name: 'is_edit',
       label: '是否可编辑',
       // width: 100,
       align: 'center',
@@ -170,7 +170,7 @@ export const fieldMeta = {
       min_length: 1 // 最小长度
     },
     {
-      name: 'is_addable',
+      name: 'is_add',
       label: '是否可新增',
       // width: 100,
       align: 'center',

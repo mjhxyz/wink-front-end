@@ -261,10 +261,10 @@ export default {
       }
     },
     addibleFields() { // 能新增的字段
-      return this.fields.filter(field => field.addible !== false)
+      return this.fields.filter(field => field.is_add)
     },
     editableFields() { // 能修改的字段
-      return this.fields.filter(field => field.editable !== false)
+      return this.fields.filter(field => field.is_edit)
     },
     tableFields() { // 能显示的字段
       return this.fields.filter(field => !field.is_hide)
