@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getRequest } from '@/api/meta'
+import { getRequest } from '@/api/meta_tmp'
 import Datatable from '@/components/Datatable/temp.vue'
 import { queryTableList } from '@/api/components/singletable'
 import { getFieldList } from '@/api/planform/field'
@@ -111,7 +111,12 @@ export default {
   },
 
   async created() {
+    // 创建 meta
+    await this.genMeta()
+    // 拉取数据
+    this.triggerFetchData()
   },
+
   methods: {
     async genMeta() {
       // 判断是否为空对象
@@ -195,7 +200,6 @@ export default {
 
     // 获取数据列表
     async fetchData(params, callback) {
-      await this.genMeta()
       params.meta = this.meta.code
       const result = await queryTableList(params)
       const { page, total, items } = result.data

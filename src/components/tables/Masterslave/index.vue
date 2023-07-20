@@ -162,7 +162,6 @@ export default {
     rowClick(row, column, event) {
       // 刷新子表
       this.$refs.slave.triggerFetchData({ masterKey: row.code })
-      console.log(row, column, event)
     }
   }
 }

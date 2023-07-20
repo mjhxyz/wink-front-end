@@ -301,17 +301,17 @@ export default {
   },
 
   watch: {
-    'table.curPage': {
-      handler() {
-        this.fetchData()
-      }
-    }
+    // 'table.curPage': {
+    //   handler() {
+    //     this.fetchData()
+    //   }
+    // }
   },
 
   async mounted() {
-    if (this.fetchOnCreated) {
-      this.fetchData()
-    }
+    // if (this.fetchOnCreated) {
+    //   this.fetchData()
+    // }
   },
   methods: {
     triggerRowClick(row, column, event) {
@@ -464,6 +464,9 @@ export default {
         this.table.total = response.total
         this.table.page = response.page
         this.listLoading = false
+        this.$nextTick(() => {
+          this.$refs.table.doLayout()
+        })
       })
     }
   }

@@ -41,7 +41,7 @@ export const fieldMeta = {
       placeholder: '请输入字段编号',
       required: true, // 是否必填
       max_length: 10, // 最大长度
-      min_length: 2 // 最小长度
+      min_length: 1 // 最小长度
     },
     {
       label: '字段名称',
@@ -61,7 +61,7 @@ export const fieldMeta = {
       placeholder: '请输入Meta 编码',
       required: true, // 是否必填
       max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'weight',
@@ -71,7 +71,7 @@ export const fieldMeta = {
       placeholder: '请输入字段权重',
       required: true, // 是否必填
       max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'type',
@@ -81,7 +81,7 @@ export const fieldMeta = {
       placeholder: '请输入字段类型',
       required: true, // 是否必填
       max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'width',
@@ -91,7 +91,7 @@ export const fieldMeta = {
       placeholder: '请输入字段宽度',
       required: true, // 是否必填
       max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'align',
@@ -99,7 +99,7 @@ export const fieldMeta = {
       // width: 100,
       align: 'center',
       placeholder: '请输入字段对齐方式',
-      max_length: 30, // 最大长度
+      max_length: 10, // 最大长度
       min_length: 2 // 最小长度
     },
     {
@@ -108,7 +108,7 @@ export const fieldMeta = {
       // width: 100,
       align: 'center',
       placeholder: '请输入字段占位符',
-      required: true, // 是否必填
+      required: false, // 是否必填
       max_length: 30, // 最大长度
       min_length: 2 // 最小长度
     },
@@ -139,7 +139,7 @@ export const fieldMeta = {
       align: 'center',
       placeholder: '请输入字段最大长度',
       max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'min_length',
@@ -148,7 +148,7 @@ export const fieldMeta = {
       align: 'center',
       placeholder: '请输入字段最小长度',
       max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'default_value',
@@ -157,7 +157,7 @@ export const fieldMeta = {
       align: 'center',
       placeholder: '请输入字段默认值',
       max_length: 30, // 最大长度
-      min_length: 2 // 最小长度
+      min_length: 1 // 最小长度
     },
     {
       name: 'is_editable',
