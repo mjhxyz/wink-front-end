@@ -5,7 +5,12 @@
       <el-form ref="form" :inline="true" :model="form" label-width="150px" :rules="tableRules">
         <el-form-item v-for="field in formFields" :key="field.name" :label="field.label" :prop="field.name">
           <winkinput
-            v-if="!field.compo || field.compo === '文本框' || field.compo==='整数框'"
+            v-if="!field.compo || field.compo === '文本框'"
+            v-model="form[field.name]"
+            :placeholder="field.placeholder"
+          />
+          <winknumber
+            v-else-if="field.compo==='整数框'"
             v-model="form[field.name]"
             :placeholder="field.placeholder"
           />
@@ -137,14 +142,15 @@
 <script>
 import Winkselect from '@/components/WinkForm/Winkselect'
 import Winkinput from '@/components/WinkForm/Winkinput'
+import Winknumber from '@/components/WinkForm/Winknumber'
 import Winkpassword from '@/components/WinkForm/Winkpassword'
-import { querySelectList } from '@/api/form/winkselect'
 
 export default {
   components: {
     Winkselect,
     Winkinput,
-    Winkpassword
+    Winkpassword,
+    Winknumber
   },
   props: {
     fetchOnCreated: { // 是否在组件创建时自动加载数据

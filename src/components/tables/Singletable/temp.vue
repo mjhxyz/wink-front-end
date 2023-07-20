@@ -129,11 +129,9 @@ export default {
       this.meta = meta
       for (let i = 0; i < fields.length; i++) {
         const field = fields[i]
-        console.log(field)
         if (field.compo === '下拉框') {
           const res = await querySelectList(field.id)
           const data = res.data
-          console.log(field)
           if (field.type === 'VARCHAR') {
             field.e_select = data.map(item => {
               return {
@@ -149,7 +147,6 @@ export default {
               }
             })
           }
-          console.log(field.e_select)
         }
       }
     },
