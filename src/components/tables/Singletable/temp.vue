@@ -31,9 +31,10 @@
 
 <script>
 import { getRequest } from '@/api/meta'
-import Datatable from '@/components/Datatable/index.vue'
+import Datatable from '@/components/Datatable/temp.vue'
 import { queryTableList } from '@/api/components/singletable'
 import { getFieldList } from '@/api/planform/field'
+import { querySelectList } from '@/api/form/winkselect'
 
 export default {
   components: {
@@ -123,18 +124,34 @@ export default {
       const res = await getFieldList({ masterKey: metaCode })
       const fields = res.data.items
       // 遍历 fields，将 meta 中的字段信息补充完整
+      meta.fields = fields
+      meta.code = metaCode
+      this.meta = meta
       for (let i = 0; i < fields.length; i++) {
         const field = fields[i]
         console.log(field)
-        field.type = {
-          name: 'text'
+        if (field.compo === '下拉框') {
+          const res = await querySelectList(field.id)
+          const data = res.data
+          console.log(field)
+          if (field.type === 'VARCHAR') {
+            field.e_select = data.map(item => {
+              return {
+                label: item.name,
+                value: item.value
+              }
+            })
+          } else {
+            field.e_select = data.map(item => {
+              return {
+                label: item.name,
+                value: parseInt(item.value)
+              }
+            })
+          }
+          console.log(field.e_select)
         }
       }
-
-      meta.fields = fields
-      meta.code = metaCode
-
-      this.meta = meta
     },
 
     rowClick(row, column, event) {

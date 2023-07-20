@@ -3,11 +3,10 @@
  */
 import request from '@/utils/request'
 
-
 export function getFieldList(params) {
-    return request({
-        url: `/field/list`,
-        method: 'get',
-        params
-    })
+  return request({
+    url: `/field/list`,
+    method: 'get',
+    params
+  })
 }
