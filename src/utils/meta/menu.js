@@ -40,7 +40,7 @@ export const menuMeta = {
       align: 'center',
       placeholder: '请输入菜单编码',
       required: true, // 是否必填
-      max_length: 10, // 最大长度
+      max_length: 255, // 最大长度
       min_length: 1 // 最小长度
     },
     {

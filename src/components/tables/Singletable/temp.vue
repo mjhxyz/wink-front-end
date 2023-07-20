@@ -137,21 +137,22 @@ export default {
         if (field.compo === '下拉框') {
           const res = await querySelectList(field.id)
           const data = res.data
-          if (field.type === 'VARCHAR') {
-            field.e_select = data.map(item => {
-              return {
-                label: item.name,
-                value: item.value
-              }
-            })
-          } else {
-            field.e_select = data.map(item => {
-              return {
-                label: item.name,
-                value: parseInt(item.value)
-              }
+          const e_select_mapping = {}
+          const e_select = []
+          for (let j = 0; j < data.length; j++) {
+            const item = data[j]
+            let val = item.value
+            if (field.type !== 'VARCHAR') {
+              val = parseInt(val)
+            }
+            e_select_mapping[val] = item.name
+            e_select.push({
+              label: item.name,
+              value: val
             })
           }
+          field.e_select = e_select
+          field.e_select_mapping = e_select_mapping
         }
       }
     },

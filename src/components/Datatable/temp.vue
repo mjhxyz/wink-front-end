@@ -47,7 +47,10 @@
       <!-- 详细信息弹出框 -->
       <el-descriptions title="" border>
         <el-descriptions-item v-for="field in detailFields" :key="field.name" :label="field.label">
-          <span v-if="field.formatter">
+          <span v-if="field.compo === '下拉框' && field.e_select_mapping">
+            {{ field.e_select_mapping[detailItem[field.name]] }}
+          </span>
+          <span v-else-if="field.formatter">
             {{ field.formatter(detailItem[field.name]) }}
           </span>
           <span v-else-if="field.dict">
@@ -88,7 +91,10 @@
       </el-table-column>
       <el-table-column v-for="field in tableFields" :key="field.name" :label="field.label" :align="field.align">
         <template slot-scope="scope">
-          <span v-if="field.formatter">
+          <span v-if="field.compo === '下拉框'">
+            {{ field.e_select_mapping[scope.row[field['name']]] }}
+          </span>
+          <span v-else-if="field.formatter">
             {{ field.formatter(scope.row[field['name']], scope.row) }}
           </span>
           <span v-else-if="field.dict">
