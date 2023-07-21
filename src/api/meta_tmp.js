@@ -30,19 +30,10 @@ export function edit(metaCode, data) {
   })
 }
 
-// 删除记录
+// 删除单个或者多个记录
 export function deleteRecord(metaCode, data) {
   return request({
     url: `/meta/delete_record/${metaCode}`,
-    method: 'post',
-    data
-  })
-}
-
-// 批量删除记录
-export function deleteMany(metaCode, data) {
-  return request({
-    url: `/meta/delete_many/${metaCode}`,
     method: 'post',
     data
   })
@@ -64,9 +55,6 @@ class MetaRequest {
   }
   delete(data) {
     return deleteRecord(this.metaCode, data)
-  }
-  deleteMany(data) {
-    return deleteMany(this.metaCode, data)
   }
 }
 

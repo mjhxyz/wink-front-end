@@ -424,21 +424,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        if (itemList.length === 1) { // 删除单个
-          this.$emit('deleteOne', itemList[0], (e) => {
-            if (e === true) {
-              this.$message.success('删除成功')
-              this.fetchData()
-            }
-          })
-        } else { // 删除多个
-          this.$emit('delete', itemList, (e) => {
-            if (e === true) {
-              this.$message.success('删除成功')
-              this.fetchData()
-            }
-          })
-        }
+        this.$emit('delete', itemList, (e) => {
+          if (e === true) {
+            this.$message.success('删除成功')
+            this.fetchData()
+          }
+        })
       }).catch(() => { })
     },
     clickDelete() { // 批量删除

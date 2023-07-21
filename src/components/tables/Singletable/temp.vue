@@ -19,7 +19,6 @@
       @add="add"
       @edit="edit"
       @delete="deleteItems"
-      @deleteOne="deleteOne"
       @row-click="rowClick"
     >
       <template #nav-btn>
@@ -183,16 +182,9 @@ export default {
 
     deleteItems(items, callback) { // delete 是关键字，不能用
       // 获取到所有的 pk(id)
-      const ids = items.map(item => item[this.meta.pk || 'id'])
-      this.request.deleteMany({ ids }).then(res => {
-        callback(true)
-      }).catch(e => {
-        callback(e)
-      })
-    },
-
-    deleteOne(item, callback) {
-      this.request.delete(item).then(res => {
+      const pk = this.meta.pk || 'id'
+      const pk_vals = items.map(item => item[pk])
+      this.request.delete({ [pk]: pk_vals }).then(res => {
         callback(true)
       }).catch(e => {
         callback(e)
