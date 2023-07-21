@@ -82,6 +82,8 @@
       height="100%"
       highlight-current-row
       @row-click="triggerRowClick"
+      @select="triggerRowSelect"
+      @select-all="triggerRowSelectAll"
     >
       <el-table-column type="selection" width="55" />
       <el-table-column v-if="index" align="center" label="#" width="95">
@@ -320,7 +322,22 @@ export default {
     // }
   },
   methods: {
+    triggerRowSelectAll(selection) {
+      if (!this.mutiple) {
+        this.$refs.table.clearSelection()
+      }
+    },
+    triggerRowSelect(selection, row) {
+      // 手动勾选数据行的 Checkbox
+      if (!this.mutiple) {
+        this.$refs.table.clearSelection()
+        this.$refs.table.toggleRowSelection(row, true)
+      }
+    },
     triggerRowClick(row, column, event) {
+      // 多选的选择
+      this.$refs.table.clearSelection()
+      this.$refs.table.toggleRowSelection(row, true)
       this.$emit('row-click', row, column, event)
     },
     submit() {
