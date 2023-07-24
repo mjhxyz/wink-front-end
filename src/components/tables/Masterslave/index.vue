@@ -27,13 +27,15 @@
       </span>
     </el-dialog>
 
-    <singletable ref="master" :meta="masterMeta" @row-click="rowClick">
+    <!-- <singletable ref="master" :meta="masterMeta" @row-click="rowClick"> -->
+    <singletable ref="master" :setting="metaSetting" @row-click="rowClick">
       <template #nav-btn>
         <el-button size="small" type="primary" icon="el-icon-plus" @click="addMeta">添加Meta数据</el-button>
       </template>
     </singletable>
 
-    <singletable ref="slave" :fetch-on-created="false" :meta="slaveMeta" :pagination="false" />
+    <!-- <singletable ref="slave" :fetch-on-created="false" :meta="slaveMeta" :pagination="false" /> -->
+    <singletable ref="slave" :fetch-on-created="false" :setting="fieldSetting" :pagination="false" />
   </div>
 </template>
 
@@ -47,7 +49,8 @@
 </style>
 
 <script>
-import Singletable from '@/components/tables/Singletable/index.vue'
+import Singletable from '@/components/tables/Singletable/temp.vue'
+// import Singletable from '@/components/tables/Singletable/index.vue'
 // TODO DELETE
 import { metaMeta } from '@/utils/meta/meta'
 import { fieldMeta } from '@/utils/meta/field'
@@ -67,6 +70,12 @@ export default {
 
   data() {
     return {
+      fieldSetting: JSON.stringify({
+        meta: 'wink_field'
+      }),
+      metaSetting: JSON.stringify({
+        meta: 'wink_meta'
+      }),
       form: {
         table: [],
         name: '',

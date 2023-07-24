@@ -2,7 +2,7 @@
   <div class="datatable-wrapper">
     <el-dialog :title="formTitle" :visible.sync="showForm" width="800px" :close-on-click-modal="false">
       <!-- 添加信息弹出框 -->
-      <el-form ref="form" :inline="true" :model="form" label-width="150px" :rules="tableRules">
+      <el-form ref="form" class="record-dialog wink-scollbar" :inline="true" :model="form" label-width="150px" :rules="tableRules">
         <el-form-item v-for="field in formFields" :key="field.name" :label="field.label" :prop="field.name">
           <winkinput
             v-if="!field.compo || field.compo === '文本框'"
@@ -505,4 +505,10 @@ export default {
 .app-footer {
   margin-top: 20px;
 }
+
+.record-dialog {
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
 </style>
