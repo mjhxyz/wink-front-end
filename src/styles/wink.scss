@@ -3,20 +3,39 @@
   width: 200px;
 }
 
-// 滚动条样式
-.wink-scollbar {
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+// 窄 table 样式
+.wink-table-narrow {
+
+  .el-table__header tr,
+  .el-table__header th {
+    padding: 0 !important;
+    height: 40px !important;
   }
 
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background-color: rgba(0, 0, 0, 0.2);
-  }
+  .el-table__body tr,
+  .el-table__body td {
+    padding: 0 !important;
+    height: 40px !important;
 
-  &::-webkit-scrollbar-track {
-    border-radius: 3px;
-    background-color: rgba(0, 0, 0, 0.1);
+    .cell {
+      padding: 0 10px !important;
+      line-height: normal;
+    }
   }
 }

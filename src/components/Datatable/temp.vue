@@ -74,7 +74,7 @@
     <el-table
       ref="table"
       v-loading="listLoading"
-      class="app-body"
+      class="app-body wink-table-narrow wink-scollbar"
       :data="table.list"
       element-loading-text="加载中..."
       border
