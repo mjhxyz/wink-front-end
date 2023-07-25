@@ -3,6 +3,12 @@
   width: 200px;
 }
 
+.wink-form-item-find {
+  input {
+    cursor: pointer !important;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
