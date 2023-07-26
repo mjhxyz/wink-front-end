@@ -322,6 +322,9 @@ export default {
     // }
   },
   methods: {
+    getSelection() {
+      return this.$refs.table.selection
+    },
     triggerRowSelectAll(selection) {
       if (!this.mutiple) {
         this.$refs.table.clearSelection()

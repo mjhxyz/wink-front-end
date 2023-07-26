@@ -8,6 +8,14 @@
 
 const TEMPLATE_LIST = [
   {
+    code: 'dir',
+    name: '目录',
+    description: '目录模板',
+    settingComponent() {
+      return import('@/components/Menusetting/Dir')
+    }
+  },
+  {
     code: 'singletable',
     name: '单表',
     description: '单表模板',

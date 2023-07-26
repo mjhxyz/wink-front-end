@@ -11,11 +11,13 @@
 
 <script>
 import Winkfind from '@/components/WinkForm/Winkfind/index.vue'
+import Menusetting from '@/components/Menusetting/base.vue'
 
 export default {
   components: {
     Winkfind
   },
+  extends: Menusetting,
   props: {
   },
   data() {
@@ -24,6 +26,8 @@ export default {
     }
   },
   computed: {
+  },
+  created() {
   }
 }
 </script>

@@ -22,7 +22,7 @@
             <span style="font-weight: bold; color: #7559ff; font-size: 20px;">[{{ templateName }}]</span>
             配置
           </legend>
-          <component :is="templateSettingComponent" str="配置组件" />
+          <component :is="templateSettingComponent" ref="setting" str="配置组件" />
         </fieldset>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -31,7 +31,7 @@
       </span>
     </el-dialog>
 
-    <singletable ref="table" :meta="meta">
+    <singletable ref="table" :setting="setting">
       <template #nav-btn>
         <el-button size="small" type="primary" icon="el-icon-plus" @click="addMenu">添加系统菜单</el-button>
       </template>
@@ -40,8 +40,7 @@
 </template>
 
 <script>
-import { menuMeta } from '@/utils/meta/menu'
-import Singletable from '@/components/tables/Singletable/index.vue'
+import Singletable from '@/components/tables/Singletable/temp.vue'
 import { getMetaList } from '@/api/planform/meta'
 import { addMenu } from '@/api/menu'
 import { TEMPLATE_LIST } from '@/utils/templates'
@@ -71,12 +70,15 @@ export default {
           { required: true, message: '请输入meta', trigger: 'blur' }
         ]
       },
-      metaList: [],
-
-      meta: menuMeta
+      metaList: []
     }
   },
   computed: {
+    setting() {
+      return JSON.stringify({
+        meta: 'wink_menu'
+      })
+    },
     templateName() {
       const temp = this.templateList.find(item => item.code === this.form.type)
       return temp ? temp.name : ''
@@ -102,14 +104,16 @@ export default {
     clickAdd() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          const setting = {
-            meta: this.form.meta
+          const setting = this.$refs.setting.getSetting()
+          if (setting === false) {
+            return
           }
           const params = {
             name: this.form.name,
             code: this.form.code,
             type: this.form.type,
-            setting: JSON.stringify(setting)
+            parent_id: this.form.parent_id,
+            setting: setting
           }
 
           addMenu(params).then(res => {
@@ -124,7 +128,28 @@ export default {
       })
     },
     addMenu() {
-      this.show = true
+      // 检查是否选择了菜单记录
+      const selectionList = this.$refs.table.getSelection()
+      if (selectionList.length === 0) {
+        // 确认框
+        this.$confirm(`还没有选择菜单目录，是否添加【顶级菜单】？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.form.parent_id = 0
+          this.show = true
+        }).catch(() => {})
+      } else if (selectionList.length > 1) {
+        this.$message({
+          message: '只能选择一个菜单目录',
+          type: 'warning'
+        })
+        return
+      } else {
+        this.form.parent_id = selectionList[0].id
+        this.show = true
+      }
     }
   }
 }

@@ -117,6 +117,9 @@ export default {
   },
 
   methods: {
+    getSelection() {
+      return this.$refs.datatable.getSelection()
+    },
     async genMeta() {
       // 判断是否为空对象
       if (Object.keys(this.meta).length) {
