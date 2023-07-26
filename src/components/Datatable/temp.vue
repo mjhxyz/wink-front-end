@@ -316,11 +316,6 @@ export default {
     // }
   },
 
-  async mounted() {
-    // if (this.fetchOnCreated) {
-    //   this.fetchData()
-    // }
-  },
   methods: {
     getSelection() {
       return this.$refs.table.selection

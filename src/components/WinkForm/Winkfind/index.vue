@@ -7,7 +7,26 @@
       width="30%"
       append-to-body
     >
-      <span>这是一段信息</span>
+      <el-table
+        :data="findData"
+        border
+        style="width: 100%"
+        @current-change="clickChange"
+      >
+        <el-table-column label="" width="55">
+          <template slot-scope="scope">
+            <el-radio v-model="tableRadio" :label="scope.row"><i /></el-radio>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="code"
+          label="日期"
+        />
+        <el-table-column
+          prop="name"
+          label="姓名"
+        />
+      </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showX = false">取 消</el-button>
         <el-button type="primary" @click="showX = false">确 定</el-button>
@@ -22,12 +41,13 @@
       @change="change"
       @click.native="handleClick"
     />
-
   </div>
 
 </template>
 
 <script>
+import { queryFindList } from '@/api/widgets/winkfind'
+
 export default {
   props: {
     value: { // 绑定值
@@ -50,10 +70,24 @@ export default {
   data() {
     return {
       showX: false, // 查找模态框
-      val: this.value // 付给初始值
+      val: this.value, // 付给初始值
+      findData: [], // 查找框的数据
+      tableRadio: '' // 表格的单选框
+    }
+  },
+  watch: {
+    async showX(val) {
+      if (val) {
+        // 请求数据
+        const result = await queryFindList('wink_field', 'meta_code')
+        this.findData = result.data
+      }
     }
   },
   methods: {
+    clickChange(item) {
+      this.tableRadio = item
+    },
     handleClick() { // 点击查找框
       console.log('你好')
       this.showX = true
