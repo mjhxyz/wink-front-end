@@ -101,30 +101,40 @@ export default {
     })
   },
   methods: {
-    clickAdd() {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          const setting = this.$refs.setting.getSetting()
-          if (setting === false) {
-            return
-          }
-          const params = {
-            name: this.form.name,
-            code: this.form.code,
-            type: this.form.type,
-            parent_id: this.form.parent_id,
-            setting: setting
-          }
+    async valideMenuForm() {
+      const formValidatePromise = new Promise((resolve, reject) => {
+        this.$refs.form.validate(valid => {
+          resolve(valid)
+        })
+      })
+      let setting = Promise.resolve(false)
+      if (this.$refs.setting) {
+        setting = this.$refs.setting.validateForm()
+      }
+      const [formValid, settingValid] = await Promise.all([formValidatePromise, setting])
+      return Promise.resolve(formValid && settingValid)
+    },
+    async clickAdd() {
+      const valid = await this.valideMenuForm()
+      if (!valid) {
+        return
+      }
+      const setting = this.$refs.setting.getSetting()
+      const params = {
+        name: this.form.name,
+        code: this.form.code,
+        type: this.form.type,
+        parent_id: this.form.parent_id,
+        setting: setting
+      }
 
-          addMenu(params).then(res => {
-            this.$message({
-              message: '添加成功',
-              type: 'success'
-            })
-            this.show = false
-            this.$refs.table.triggerFetchData()
-          })
-        }
+      addMenu(params).then(res => {
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        })
+        this.show = false
+        this.$refs.table.triggerFetchData()
       })
     },
     addMenu() {

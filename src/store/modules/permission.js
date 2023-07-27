@@ -36,10 +36,15 @@ const actions = {
         }
         if (tree.type === 'singletable') {
           route.component = () => import('@/components/tables/Singletable/temp')
+          console.log('单表:', route)
         }
 
-        if (tree.children && tree.children.length > 0) {
-          route.component = Layout
+        if (tree.type === 'dir') {
+          if (tree.parent_id === 0) {
+            route.component = Layout
+          } else {
+            route.component = () => import('@/views/layout')
+          }
           for (let i = 0; i < tree.children.length; i++) {
             const child = tree.children[i]
             route.children.push(buildTree(child))

@@ -99,9 +99,9 @@ export const constantRoutes = [
         name: 'Role',
         component: () => import('@/views/planform/role'),
         meta: { title: '角色管理', icon: 'tree' }
-      },
+      }
     ]
-  },
+  }
 
 ]
 

@@ -19,13 +19,10 @@ export default {
   methods: {
     validateForm() {
       // 校验模板配置
-      return true
+      return Promise.resolve(true)
     },
     getSetting() {
       // 校验 form
-      if (!this.validateForm()) {
-        return false
-      }
       return JSON.stringify(this.form)
     }
   }
