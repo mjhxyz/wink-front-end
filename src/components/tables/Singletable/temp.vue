@@ -1,5 +1,17 @@
 <template>
   <div class="app-container">
+    <div class="app-btn-group">
+      <component
+        :is="item.component"
+        v-for="(item, index) in buttons"
+        :key="index"
+        :table="$refs.datatable"
+        :icon="item.icon"
+        :detail-fields="detailFields"
+        @delete="deleteItems"
+        @refresh="reloadData"
+      />
+    </div>
     <datatable
       ref="datatable"
       :index="true"
@@ -34,11 +46,13 @@ import Datatable from '@/components/Datatable/temp.vue'
 import { queryTableList } from '@/api/components/singletable'
 import { getFieldList } from '@/api/planform/field'
 import { querySelectList } from '@/api/form/winkselect'
+import Buttontable from '@/components/tables/Buttontable.vue'
 
 export default {
   components: {
     Datatable
   },
+  extends: Buttontable,
   props: {
     fetchOnCreated: { // 是否在创建时就获取数据
       type: Boolean,
@@ -106,6 +120,12 @@ export default {
     },
     metaCode() {
       return this.meta.code
+    },
+    detailFields() {
+      if (!this.fields) {
+        return []
+      }
+      return this.fields.filter(field => !field.is_hide_detail)
     }
   },
 
@@ -192,6 +212,10 @@ export default {
       }).catch(e => {
         callback(e)
       })
+    },
+
+    reloadData() { // 刷新数据
+      this.$refs.datatable.fetchData()
     },
 
     // 获取数据列表

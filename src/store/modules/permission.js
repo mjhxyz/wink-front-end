@@ -27,7 +27,8 @@ const actions = {
           redirect: tree.redirect,
           props: route => {
             return {
-              setting: tree.setting
+              setting: tree.setting,
+              menuCode: tree.code
             }
           },
           name: tree.code,
@@ -36,7 +37,6 @@ const actions = {
         }
         if (tree.type === 'singletable') {
           route.component = () => import('@/components/tables/Singletable/temp')
-          console.log('单表:', route)
         }
 
         if (tree.type === 'dir') {

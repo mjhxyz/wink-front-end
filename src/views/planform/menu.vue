@@ -156,6 +156,14 @@ export default {
           type: 'warning'
         })
         return
+      }
+      const row = selectionList[0]
+      if (row.type !== 'dir') {
+        this.$message({
+          message: '只能选择菜单目录',
+          type: 'warning'
+        })
+        return
       } else {
         this.form.parent_id = selectionList[0].id
         this.show = true
