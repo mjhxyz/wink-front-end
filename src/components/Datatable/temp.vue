@@ -86,7 +86,7 @@
       @select-all="triggerRowSelectAll"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column v-if="index" align="center" label="#" width="95">
+      <el-table-column v-if="index" align="center" label="" width="60" fixed="left">
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
         </template>
