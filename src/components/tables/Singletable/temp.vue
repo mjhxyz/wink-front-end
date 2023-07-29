@@ -20,8 +20,8 @@
     <datatable
       ref="datatable"
       :index="true"
-      :fields="fields"
       :op-btn="opBtn"
+      :table-fields="tableFields"
       :op-btn-detail="opBtnDetail"
       :op-btn-delete="opBtnDelete"
       :op-btn-edit="opBtnEdit"
@@ -122,6 +122,12 @@ export default {
 
     fields() {
       return this.meta.fields
+    },
+    tableFields() {
+      if (!this.fields) {
+        return []
+      }
+      return this.fields.filter(field => !field.is_hide)
     },
     metaCode() {
       return this.meta.code
