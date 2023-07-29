@@ -32,14 +32,25 @@ const actions = {
             }
           },
           name: tree.code,
-          meta: { title: tree.name, icon: 'tree' },
-          children: []
+          meta: { title: tree.name, icon: 'tree' }
         }
         if (tree.type === 'singletable') {
+          let result = route
+          if (tree.parent_id === 0) {
+            // 在根节点的页面，需要添加一个父节点 Layout
+            result = {
+              path: `/menu/${tree.code}`,
+              redirect: `/menu/${tree.code}`,
+              component: Layout,
+              children: [route]
+            }
+          }
           route.component = () => import('@/components/tables/Singletable/temp')
+          return result
         }
 
         if (tree.type === 'dir') {
+          route.children = []
           if (tree.parent_id === 0) {
             route.component = Layout
           } else {

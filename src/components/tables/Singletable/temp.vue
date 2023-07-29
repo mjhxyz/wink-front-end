@@ -70,6 +70,10 @@ export default {
     setting: {
       type: String,
       required: true
+    },
+    menuCode: {
+      type: String,
+      required: true
     }
   },
 
@@ -81,7 +85,7 @@ export default {
 
   computed: {
     request() {
-      return getRequest(this.metaCode)
+      return getRequest(this.menuCode, this.metaCode)
     },
 
     opBtn() {
