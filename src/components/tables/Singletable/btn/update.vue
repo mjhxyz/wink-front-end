@@ -42,7 +42,7 @@
         <el-button type="danger" @click="showForm = false">关 闭</el-button>
       </span>
     </el-dialog>
-    <el-button size="small" type="primary" :icon="icon" @click="click">修改</el-button>
+    <el-button size="small" type="warning" :icon="icon" @click="click">修改</el-button>
   </div>
 </template>
 
