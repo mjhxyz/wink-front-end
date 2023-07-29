@@ -8,7 +8,10 @@
         :table="$refs.datatable"
         :icon="item.icon"
         :detail-fields="detailFields"
+        :add-fields="addFields"
+        :add-rules="addRules"
         @delete="deleteItems"
+        @add="add"
         @refresh="reloadData"
       />
     </div>
@@ -126,6 +129,45 @@ export default {
         return []
       }
       return this.fields.filter(field => !field.is_hide_detail)
+    },
+    addFields() {
+      if (!this.fields) {
+        return []
+      }
+      return this.fields.filter(field => field.is_add)
+    },
+
+    addRules() {
+      const rules = {}
+      if (!this.fields) {
+        return rules
+      }
+      for (const field of this.fields) {
+        const rule = []
+        if (field.required) {
+          rule.push({ required: true, message: `请输入${field.label}`, trigger: 'blur' })
+        }
+        if (field.max_length) {
+          rule.push({ max: field.max_length, message: `${field.label}最大长度为${field.max_length}`, trigger: 'blur' })
+        }
+        if (field.min_length) {
+          rule.push({ min: field.min_length, message: `${field.label}最小长度为${field.min_length}`, trigger: 'blur' })
+        }
+        if (field.validate) {
+          rule.push({
+            validator: (rule, value, callback) => {
+              const res = field.validate(value, this.form)
+              if (res) {
+                callback(new Error(res))
+              } else {
+                callback()
+              }
+            }, trigger: 'blur'
+          })
+        }
+        rules[field.name] = rule
+      }
+      return rules
     }
   },
 

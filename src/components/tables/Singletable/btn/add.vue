@@ -2,8 +2,8 @@
   <div style="display: inline-block; margin-right: 10px;">
     <el-dialog :title="formTitle" :visible.sync="showForm" width="800px" :close-on-click-modal="false">
       <!-- 添加信息弹出框 -->
-      <el-form ref="form" class="record-dialog wink-scollbar" :inline="true" :model="form" label-width="150px" :rules="tableRules">
-        <el-form-item v-for="field in formFields" :key="field.name" :label="field.label" :prop="field.name">
+      <el-form ref="form" class="record-dialog wink-scollbar" :inline="true" :model="form" label-width="150px" :rules="addRules">
+        <el-form-item v-for="field in addFields" :key="field.name" :label="field.label" :prop="field.name">
           <winkinput
             v-if="!field.compo || field.compo === '文本框'"
             v-model="form[field.name]"
@@ -42,25 +42,63 @@
         <el-button type="danger" @click="showForm = false">关 闭</el-button>
       </span>
     </el-dialog>
-    <el-button size="small" type="primary" :icon="icon">新增</el-button>
+    <el-button size="small" type="primary" :icon="icon" @click="click">新增</el-button>
   </div>
 </template>
 
 <script>
+import Winkselect from '@/components/WinkForm/Winkselect'
+import Winkinput from '@/components/WinkForm/Winkinput'
+import Winknumber from '@/components/WinkForm/Winknumber'
+import Winkpassword from '@/components/WinkForm/Winkpassword'
+
 export default {
+  components: {
+    Winkselect,
+    Winkinput,
+    Winknumber,
+    Winkpassword
+  },
   props: {
     icon: {
       type: String,
       default: ''
+    },
+    addRules: { // 表单验证规则
+      type: Object,
+      default: () => ({})
+    },
+    formTitle: { // 表单标题
+      type: String,
+      default: ''
+    },
+    addFields: { // 表单字段
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
       showForm: false, // 展示表单
-      formTitle: '', // 表单标题
-      formFields: [], // 表单字段
-      form: {}, // 表单数据
-      tableRules: {} // 表单验证规则
+      form: {} // 表单数据
+    }
+  },
+  methods: {
+    click() {
+      this.showForm = true
+    },
+    submit() {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.$emit('add', this.form, (e) => {
+            if (e === true) {
+              this.$message.success('新增成功')
+              this.$emit('refresh')
+            }
+          })
+          this.showForm = false
+        }
+      })
     }
   }
 }
