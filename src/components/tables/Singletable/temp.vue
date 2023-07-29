@@ -9,9 +9,11 @@
         :icon="item.icon"
         :detail-fields="detailFields"
         :add-fields="addFields"
+        :edit-fields="editFields"
         :add-rules="addRules"
         @delete="deleteItems"
         @add="add"
+        @edit="edit"
         @refresh="reloadData"
       />
     </div>
@@ -135,6 +137,12 @@ export default {
         return []
       }
       return this.fields.filter(field => field.is_add)
+    },
+    editFields() {
+      if (!this.fields) {
+        return []
+      }
+      return this.fields.filter(field => field.is_edit)
     },
 
     addRules() {
