@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="app-btn-group">
+    <div v-if="buttons.length !== 0" class="app-btn-group">
       <component
         :is="item.component"
         v-for="(item, index) in buttons"
@@ -295,5 +295,9 @@ export default {
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
+}
+
+.app-btn-group {
+    margin-bottom: 10px;
 }
 </style>
