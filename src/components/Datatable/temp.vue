@@ -54,10 +54,6 @@
 <script>
 export default {
   props: {
-    fetchOnCreated: { // 是否在组件创建时自动加载数据
-      type: Boolean,
-      default: true
-    },
     pagination: { // 是否分页
       type: Boolean,
       default: true
@@ -87,6 +83,13 @@ export default {
     }
   },
   methods: {
+    // 设置选中的行
+    setSelection(rows) {
+      this.$refs.table.clearSelection()
+      rows.forEach(row => {
+        this.$refs.table.toggleRowSelection(row, true)
+      })
+    },
     getSelection() {
       return this.$refs.table.selection
     },
@@ -117,7 +120,7 @@ export default {
       this.table.page = val
       this.fetchData()
     },
-    fetchData(e) {
+    fetchData(e) { // 将会被父组件调用
       this.listLoading = true
       let params = e || {}
       if (this.pagination) {
@@ -126,6 +129,7 @@ export default {
           pageSize: this.table.pageSize
         }
       }
+      // 调用父组件的方法
       this.$emit('fetchData', params, (response) => {
         this.table.list = response.items
         this.table.total = response.total

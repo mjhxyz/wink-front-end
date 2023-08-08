@@ -31,7 +31,6 @@
       :nav-btn-edit="navBtnEdit"
       :nav-btn-delete="navBtnDelete"
       :pagination="pagination"
-      :fetch-on-created="fetchOnCreated"
       @fetchData="fetchData"
       @add="add"
       @edit="edit"
@@ -59,10 +58,6 @@ export default {
   },
   extends: Buttontable,
   props: {
-    fetchOnCreated: { // 是否在创建时就获取数据
-      type: Boolean,
-      default: true
-    },
     pagination: {
       type: Boolean,
       default: true
@@ -193,7 +188,7 @@ export default {
     // 创建 meta
     await this.genMeta()
     // 拉取数据
-    this.triggerFetchData()
+    // this.triggerFetchData()
   },
 
   methods: {
@@ -243,7 +238,8 @@ export default {
       this.$emit('row-click', row, column, event)
     },
 
-    triggerFetchData(params) { // 触发刷新
+    async triggerFetchData(params) { // 触发刷新
+      await this.genMeta()
       this.$refs.datatable.fetchData(params)
     },
 
@@ -288,6 +284,12 @@ export default {
         total,
         items
       })
+      // 向上层传递事件
+      this.$emit('fetchData', items)
+    },
+    // 设置选中的行
+    setSelection(selection) {
+      this.$refs.datatable.setSelection(selection)
     }
   }
 }
